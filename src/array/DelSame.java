@@ -32,21 +32,31 @@ import java.util.Arrays;
  */
 public class DelSame {
     public int removeDuplicates(int[] nums) {
-        Integer index = 0;
-        Integer value = -10000;
-        for (Integer i=0;i<nums.length;i++){
-            if (nums[i]!=value){
-                nums[index] = nums[i];
-                index++;
-                value = nums[i];
+//        Integer index = 0;
+//        Integer value = -10000;
+//        for (Integer i=0;i<nums.length;i++){
+//            if (nums[i]!=value){
+//                nums[index] = nums[i];
+//                index++;
+//                value = nums[i];
+//            }
+//        }
+//        return index;
+        //精简版
+        Integer i=0;
+        for (Integer j=0;j<nums.length;j++){
+            if (nums[i]!=nums[j]){
+                nums[++i] = nums[j];
             }
         }
-        return index;
+        return ++i;
+
     }
 
     public static void main(String[] args) {
         int[] nums = new int[]{0,0,1,1,1,2,2,3,3,4};
-        new DelSame().removeDuplicates(nums);
+        System.out.println(new DelSame().removeDuplicates(nums));
         System.out.println(Arrays.toString(nums));
+
     }
 }
