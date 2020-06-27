@@ -18,7 +18,7 @@ package explore.array;
 import java.util.HashMap;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class TwoNumsSum {
+class 两数之和 {
     public int[] twoSum(int[] nums, int target) {
         HashMap hashMap = new HashMap();
         for (int i = 0;i<nums.length;i++){
