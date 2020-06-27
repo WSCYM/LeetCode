@@ -32,7 +32,7 @@ import java.util.Arrays;
  *
  * @createTime 2020-06-26 22:59:00
  */
-public class ReverseArray {
+public class 旋转数组 {
 //    public void rotate(int[] nums, int k) {
 //        for (int i=0;i<k;i++){
 //            re1Step(nums);

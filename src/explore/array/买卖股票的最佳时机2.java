@@ -41,7 +41,7 @@ package explore.array;
  *
  * @createTime 2020-06-26 22:39:00
  */
-public class Stock2 {
+public class 买卖股票的最佳时机2 {
     public int maxProfit(int[] prices) {
         Integer total = 0;
         for (Integer i = 0 ; i < prices.length - 1 ; i++) {
@@ -53,6 +53,6 @@ public class Stock2 {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Stock2().maxProfit(new int[]{1,2,3,4,5}));
+        System.out.println(new 买卖股票的最佳时机2().maxProfit(new int[]{1,2,3,4,5}));
     }
 }

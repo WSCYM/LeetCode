@@ -30,7 +30,7 @@ import java.util.Arrays;
  * 你不需要考虑数组中超出新长度后面的元素。
  * @createTime 2020-06-26 00:07:00
  */
-public class DelSame {
+public class  删除排序数组中的重复项 {
     public int removeDuplicates(int[] nums) {
 //        Integer index = 0;
 //        Integer value = -10000;
@@ -55,7 +55,7 @@ public class DelSame {
 
     public static void main(String[] args) {
         int[] nums = new int[]{0,0,1,1,1,2,2,3,3,4};
-        System.out.println(new DelSame().removeDuplicates(nums));
+        System.out.println(new 删除排序数组中的重复项().removeDuplicates(nums));
         System.out.println(Arrays.toString(nums));
 
     }
