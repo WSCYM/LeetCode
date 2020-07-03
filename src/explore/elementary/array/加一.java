@@ -1,8 +1,4 @@
-package explore.array;
-
-import sun.security.util.ArrayUtil;
-
-import java.util.Arrays;
+package explore.elementary.array;
 
 /**
  * @author ym

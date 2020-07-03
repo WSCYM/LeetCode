@@ -1,6 +1,4 @@
-package explore.array;
-
-import java.util.Arrays;
+package explore.elementary.array;
 
 /**
  * @author ym

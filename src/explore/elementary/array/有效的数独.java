@@ -1,6 +1,5 @@
-package explore.array;
+package explore.elementary.array;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**

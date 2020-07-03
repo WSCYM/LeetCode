@@ -1,4 +1,4 @@
-package explore.array;
+package explore.elementary.array;
 
 /**
  * @author ym
