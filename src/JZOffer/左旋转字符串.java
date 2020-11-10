@@ -1,4 +1,4 @@
-package explore.JZOffer;
+package JZOffer;
 
 public class 左旋转字符串 {
     public String reverseLeftWords(String s, int n) {

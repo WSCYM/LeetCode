@@ -1,10 +1,9 @@
-package explore.JZOffer;
-
-import java.rmi.Remote;
-import java.util.LinkedList;
-import java.util.Queue;
+package JZOffer;
 
 import classes.TreeNode;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class 二叉树的深度 {
 

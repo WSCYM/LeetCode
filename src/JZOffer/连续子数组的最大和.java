@@ -1,4 +1,4 @@
-package explore.JZOffer;
+package JZOffer;
 
 public class 连续子数组的最大和 {
     public int maxSubArray(int[] nums) {

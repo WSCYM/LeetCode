@@ -1,4 +1,4 @@
-package explore.JZOffer;
+package JZOffer;
 
 /**
  * @author ym

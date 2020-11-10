@@ -1,4 +1,4 @@
-package explore.JZOffer;
+package JZOffer;
 
 public class 旋转数组的最小数字 {
     public int minArray(int[] numbers) {

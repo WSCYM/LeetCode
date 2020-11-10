@@ -1,4 +1,4 @@
-package explore.JZOffer;
+package JZOffer;
 
 public class 二进制中1的个数 {
     // you need to treat n as an unsigned value

@@ -1,7 +1,6 @@
-package explore.JZOffer;
+package JZOffer;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class 圆圈中最后剩下的数字 {
     public int lastRemaining(int n, int m) {

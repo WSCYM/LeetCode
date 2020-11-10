@@ -1,4 +1,4 @@
-package explore.JZOffer;
+package JZOffer;
 
 public class 青蛙跳台阶问题 {
     public int numWays(int n) {

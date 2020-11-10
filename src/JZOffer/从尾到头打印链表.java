@@ -1,9 +1,8 @@
-package explore.JZOffer;
+package JZOffer;
 
 import classes.ListNode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class 从尾到头打印链表 {
     public int[] reversePrint(ListNode head) {

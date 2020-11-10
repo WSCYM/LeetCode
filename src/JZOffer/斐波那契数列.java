@@ -1,4 +1,4 @@
-package explore.JZOffer;
+package JZOffer;
 
 public class 斐波那契数列 {
 

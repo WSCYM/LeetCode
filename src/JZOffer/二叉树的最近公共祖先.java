@@ -1,7 +1,6 @@
-package explore.JZOffer;
+package JZOffer;
 
 import classes.TreeNode;
-
 
 
 public class 二叉树的最近公共祖先 {

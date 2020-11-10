@@ -1,4 +1,4 @@
-package explore.JZOffer;
+package JZOffer;
 
 import java.util.ArrayList;
 import java.util.Scanner;

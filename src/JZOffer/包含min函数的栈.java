@@ -1,11 +1,11 @@
-package explore.JZOffer;
+package JZOffer;
 
-import java.util.LinkedList;
 import java.util.Stack;
 
 public class 包含min函数的栈 {
 
 }
+
 class MinStack {
     Stack<Integer> stackA;
     Stack<Integer> stackB;
