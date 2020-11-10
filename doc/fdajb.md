@@ -2,7 +2,7 @@
 
 ## 位运算
 
-![1604586652791](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604586652791.png)
+![1604586652791](../img/wysf1.png)
 
 ​	<<表示左移移，不分正负数，低位补0；
 
@@ -79,7 +79,7 @@ public int add(int a, int b) {
 
 滑动窗口法可以用来解决一些查找满足一定条件的连续区间的性质（长度等）问题，个人认为可以看做是一种双指针方法的特例，两个指针都起始于原点，并一前一后向终点前进。还有一种双指针方法，其两个指针一始一终，并相向靠近，这种方法的内在思想和滑动窗口也非常类似
 
-![1604660402967](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604660402967.png)
+![1604660402967](../img/hdck1.png)
 
 模板:
 
@@ -178,7 +178,7 @@ class Solution {
 
 ### 大数问题
 
-![1604403968667](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604403968667.png)
+![1604403968667](../img/dswt1.png)
 
 大数打印解法：
 实际上，本题的主要考点是大数越界情况下的打印。需要解决以下三个问题：
@@ -221,11 +221,11 @@ class Solution {
 }
 ```
 
-![1604404212508](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604404212508.png)
+![1604404212508](../img/dswt2.png)
 
-![1604404221002](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604404221002.png)
+![1604404221002](../img/dswt3.png)
 
-![1604404233871](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604404233871.png)
+![1604404233871](../img/dswt4.png)
 
 ```java
 class Solution {
@@ -272,8 +272,8 @@ Collections.reverse(xx)
 
 
 
-![QQ图片20201110123639](F:\mdImg\dp1.png)
+![QQ图片20201110123639](..\img\dp1.png)
 
-![QQ图片20201110123722](F:\mdImg\dp2.png)
+![QQ图片20201110123722](..\img\dp2.png)
 
-![dp3](F:\mdImg\dp3.png)
+![dp3](..\img\dp3.png)
