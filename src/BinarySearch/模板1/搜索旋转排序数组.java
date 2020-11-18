@@ -1,4 +1,4 @@
-package BinarySearch;
+package BinarySearch.模板1;
 
 /**
  * @author ym

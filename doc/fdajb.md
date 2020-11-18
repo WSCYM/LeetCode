@@ -2,7 +2,7 @@
 
 ## 位运算
 
-![1604586652791](../img/wysf1.png)
+![1604586652791](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604586652791.png)
 
 ​	<<表示左移移，不分正负数，低位补0；
 
@@ -71,6 +71,48 @@ public int add(int a, int b) {
 
 ## 数组
 
+### 二分查找
+
+tips:求最小化的最大值或者求最大化的最小值  eg.[1552. 两球之间的磁力](https://leetcode-cn.com/problems/magnetic-force-between-two-balls/)
+
+模板1
+
+```java
+int binarySearch(int[] nums, int target){
+  if(nums == null || nums.length == 0)
+    return -1;
+
+  int left = 0, right = nums.length - 1;
+  while(left <= right){
+    // Prevent (left + right) overflow
+    int mid = left + (right - left) / 2;
+    if(nums[mid] == target){ return mid; }
+    else if(nums[mid] < target) { left = mid + 1; }
+    else { right = mid - 1; }
+  }
+
+  // End Condition: left > right
+  return -1;
+}
+```
+
+#### 关键属性
+
+二分查找的最基础和最基本的形式。
+查找条件可以在不与元素的两侧进行比较的情况下确定（或使用它周围的特定元素）。
+不需要后处理，因为每一步中，你都在检查是否找到了元素。如果到达末尾，则知道未找到该元素。
+
+#### 区分语法
+
+初始条件：left = 0, right = length-1
+终止：left > right
+向左查找：right = mid-1
+向右查找：left = mid+1
+
+
+
+
+
 ### 滑动窗口算法及模板
 
 什么是滑动窗口
@@ -79,7 +121,7 @@ public int add(int a, int b) {
 
 滑动窗口法可以用来解决一些查找满足一定条件的连续区间的性质（长度等）问题，个人认为可以看做是一种双指针方法的特例，两个指针都起始于原点，并一前一后向终点前进。还有一种双指针方法，其两个指针一始一终，并相向靠近，这种方法的内在思想和滑动窗口也非常类似
 
-![1604660402967](../img/hdck1.png)
+![1604660402967](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604660402967.png)
 
 模板:
 
@@ -97,6 +139,12 @@ while (right < s.size()) {
     }
 }
 ```
+
+### 众数问题
+
+​	摩尔投票算法
+
+
 
 ## 树
 
@@ -178,7 +226,7 @@ class Solution {
 
 ### 大数问题
 
-![1604403968667](../img/dswt1.png)
+![1604403968667](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604403968667.png)
 
 大数打印解法：
 实际上，本题的主要考点是大数越界情况下的打印。需要解决以下三个问题：
@@ -221,11 +269,11 @@ class Solution {
 }
 ```
 
-![1604404212508](../img/dswt2.png)
+![1604404212508](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604404212508.png)
 
-![1604404221002](../img/dswt3.png)
+![1604404221002](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604404221002.png)
 
-![1604404233871](../img/dswt4.png)
+![1604404233871](C:\Users\ym\AppData\Roaming\Typora\typora-user-images\1604404233871.png)
 
 ```java
 class Solution {
@@ -272,8 +320,8 @@ Collections.reverse(xx)
 
 
 
-![QQ图片20201110123639](..\img\dp1.png)
+![QQ图片20201110123639](F:\mdImg\dp1.png)
 
-![QQ图片20201110123722](..\img\dp2.png)
+![QQ图片20201110123722](F:\mdImg\dp2.png)
 
-![dp3](..\img\dp3.png)
+![dp3](F:\mdImg\dp3.png)
