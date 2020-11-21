@@ -1,12 +1,15 @@
 package JZOffer;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Scanner;
 
 class Proc{
     String pName;
     Integer enterTime;
     Integer operateTime;
+    Integer remainTime;
+    Boolean hasEnter = false;
 }
 
 public class Test {
@@ -19,37 +22,46 @@ public class Test {
             proc.pName = sc.next();
             proc.enterTime = sc.nextInt();
             proc.operateTime = sc.nextInt();
+            proc.remainTime = proc.operateTime;
             as.add(proc);
         }
-//      先执行的进程为最先进入的进程，所以遍历三个进程，找到进入时间最小的进程，即为最先执行的进程
-        Proc first = new Proc();
-        first.enterTime = Integer.MAX_VALUE;
-        for (Proc p : as){
-            if (p.enterTime<first.enterTime){
-                first = p;
+        Proc p1 = as.get(0);
+        Proc p2 = as.get(1);
+        Proc p3 = as.get(2);
+        int t = 0;
+        while (true){
+            if (p1.enterTime == t && !p1.hasEnter) {
+                p1.hasEnter=true;
+                sortByRemainTime(as);
+            } else if (p2.enterTime == t && !p2.hasEnter) {
+                p2.hasEnter = true;
+                sortByRemainTime(as);
+            } else if (p3.enterTime == t && !p2.hasEnter) {
+                p3.hasEnter = true;
+                sortByRemainTime(as);
             }
+            as.get(0).remainTime--;
+            if (as.get(0).remainTime==0){
+                as.remove(0);
+            }
+            if (as.size()==1){
+                break;
+            }
+            t++;
         }
-//        firstEndTime为第一个进程的结束时间
-        Integer firstEndTime = first.enterTime+first.operateTime;
-//        执行完后将第一个进程移除
-        as.remove(first);
+        System.out.printf(as.get(0).pName);
+    }
 
-//        下面四行计算剩余两个进程的响应比
-        Double rate1,rate2;
-        Proc proc1 = as.get(0);
-        rate1 = Double.valueOf(1+((firstEndTime-proc1.enterTime)/proc1.operateTime));
-        Proc proc2 = as.get(1);
-        rate2 = Double.valueOf(1+((firstEndTime-proc2.enterTime)/proc2.operateTime));
-
-//        响应比相同,则先执行前面的进程，所以最后执行进程proc2
-        if (rate1.equals(rate2)){
-            System.out.println(proc2.pName);
-//            若proc1响应比高，则先执行proc1，最后执行进程proc2
-        } else if (rate1.compareTo(rate2)>0){
-            System.out.println(proc2.pName);
-        } else {
-//            若proc2响应比高，则先执行proc2，最后执行进程proc1
-            System.out.println(proc1.pName);
-        }
+    public static ArrayList<Proc> sortByRemainTime(ArrayList<Proc> as){
+        //按剩余时间排序,若剩余时间相同，按进入时间反向排序
+        as.sort(new Comparator<Proc>() {
+            @Override
+            public int compare(Proc o1, Proc o2) {
+                if (o1.remainTime==o2.remainTime){
+                    return o2.enterTime-o1.enterTime;
+                } else return o1.remainTime-o2.remainTime;
+            }
+        });
+        return as;
     }
 }
