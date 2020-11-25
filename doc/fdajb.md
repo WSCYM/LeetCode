@@ -361,6 +361,8 @@ class Solution {
 
 ​	特性：通过中序遍历所得到的序列，就是有序的
 
+
+
 ## 字符串
 
 ### 大数问题
@@ -464,3 +466,11 @@ Collections.reverse(xx)
 ![QQ图片20201110123722](F:\mdImg\dp2.png)
 
 ![dp3](F:\mdImg\dp3.png)
+
+## 堆
+
+### 实现类：优先级队列
+
+#### **1、概念**
+
+PriorityQueue类在Java1.5中引入。PriorityQueue是基于**优先堆**的一个无界队列，这个优先队列中的元素可以默认自然排序或者通过提供的Comparator（比较器）在队列实例化的时排序。要求使用Java Comparable和Comparator接口给对象排序，并且在排序时会按照优先级处理其中的元素。
