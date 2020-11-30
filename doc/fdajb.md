@@ -287,7 +287,7 @@ while (right < s.size()) {
 
 ## 树
 
-### 二叉树 前中后序遍历模板
+### 二叉树 前中后序遍历迭代模板
 
 只有注释的地方需要注意
 
@@ -388,15 +388,6 @@ public List<Integer> inorderTraversal(TreeNode root) {
 
 
 
-```java
-class Solution {
-    public int maxDepth(TreeNode root) {
-        if(root == null) return 0;
-        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
-    }
-}
-```
-
 ### 层序遍历
 
 - 树的层序遍历 / 广度优先搜索往往利用 **队列** 实现。
@@ -441,6 +432,124 @@ class Solution {
 ​	二叉查找树（Binary Search Tree），（又：二叉搜索树，二叉排序树）它或者是一棵空树，或者是具有下列性质的[二叉树](https://baike.baidu.com/item/%E4%BA%8C%E5%8F%89%E6%A0%91/1602879)： 若它的左子树不空，则左子树上所有结点的值均小于它的[根结点](https://baike.baidu.com/item/%E6%A0%B9%E7%BB%93%E7%82%B9/9795570)的值； 若它的右子树不空，则右子树上所有结点的值均大于它的根结点的值； 它的左、右子树也分别为[二叉排序树](https://baike.baidu.com/item/%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91/10905079)。
 
 ​	特性：通过中序遍历所得到的序列，就是有序的
+
+### 根据前中（前后||中后）遍历序列构造二叉树模板
+
+
+
+#### 根据前中序列构造二叉树
+
+```java
+public class test {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        return helper(preorder,0,preorder.length-1,inorder,0,inorder.length-1);
+    }
+
+    TreeNode helper(int[] preorder, int preStart, int preEnd,
+                   int[] inorder, int inStart, int inEnd) {
+		//递归出口
+        if (preStart > preEnd) {
+            return null;
+        }
+        int rootVal = preorder[preStart];
+        TreeNode root = new TreeNode(rootVal);
+        if (preStart==preEnd) {
+            return root;
+        }
+        //获得根节点在另一个数组中的索引
+        int index = 0;
+        for (int i = inStart; i <= inEnd; i++) {
+            if (inorder[i] == rootVal) {
+                index = i;
+                break;
+            }
+        }
+        //计算左子树节点数
+        int leftSize = index - inStart;
+        //递归构造左右子树
+        root.left = helper(preorder, preStart + 1, preStart + leftSize,
+                inorder, inStart, index - 1);
+        root.right = helper(preorder, preStart + leftSize + 1, preEnd,
+                inorder, index + 1, inEnd);
+        return root;
+    }
+}
+```
+
+#### 根据中后序列构造二叉树
+
+````java
+public class test {
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        return helper(inorder,0,inorder.length-1,postorder,0,postorder.length-1);
+    }
+
+    TreeNode helper(int[] inorder,int inStart,int inEnd, int[] postorder,int postStart,int postEnd){
+        //递归出口
+        if (inStart>inEnd){
+            return null;
+        }
+        int rootVal = postorder[postEnd];
+        TreeNode root = new TreeNode(rootVal);
+        if (inStart==inEnd) return root;
+        //获得根节点在另一个数组中的索引
+        int rootIndex = 0;
+        for (int i=inStart;i<=inEnd;i++){
+            if (rootVal == inorder[i]){
+                rootIndex = i;
+                break;
+            }
+        }
+        //计算左子树节点数
+        int leftSize = rootIndex-inStart;
+        //递归构造左右子树
+        root.left = helper(inorder,inStart,rootIndex-1,postorder,postStart,postStart+leftSize-1);
+        root.right = helper(inorder,rootIndex+1,inEnd,postorder,postStart+leftSize,postEnd-1);
+        return root;
+    }
+}
+````
+
+#### 根据前后序列构造二叉树
+
+````java
+public class test {
+    public TreeNode constructFromPrePost(int[] pre, int[] post) {
+        return helper(pre,0,pre.length-1,post,0,post.length-1);
+    }
+
+    TreeNode helper(int[] pre,int preStart,int preEnd,int[] post,int postStart,int postEnd){
+        //递归出口
+        if (preStart >preEnd){
+            return null;
+        }
+        int rootVal = pre[preStart];
+        TreeNode root = new TreeNode(pre[preStart]);
+        if (preStart==preEnd){
+            return root;
+        }
+        //获取左子树的根节点在后序序列中的索引
+        int index = postStart;
+        for(int i=postStart;i<=postEnd;i++){
+            if (post[i]==pre[preStart+1]){
+                index = i;
+            }
+        }
+        //计算左子树节点数
+        int leftSize = index-postStart;
+        //递归构造左右子树
+        root.left = helper(pre,preStart+1,preStart+leftSize+1,post,postStart,index);
+        root.right = helper(pre,preStart+leftSize+1+1,preEnd,post,index+1,postEnd-1);
+        return root;
+    }
+}
+````
+
+
+
+
+
+
 
 
 
