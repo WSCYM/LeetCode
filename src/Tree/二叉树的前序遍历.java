@@ -24,9 +24,7 @@ public class 二叉树的前序遍历 {
     //迭代
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<>();
-        if (root==null){
-            return res;
-        }
+        if (root==null) return res;
         Stack<TreeNode> stack = new Stack<>();
         TreeNode p = root;
         while (p!=null || !stack.isEmpty()){

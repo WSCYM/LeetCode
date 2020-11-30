@@ -287,23 +287,104 @@ while (right < s.size()) {
 
 ## 树
 
-### 后序遍历
+### 二叉树 前中后序遍历模板
 
-树的后序遍历 / 深度优先搜索往往利用 递归 或 栈 实现，本文使用递归实现。
-关键点： 此树的深度和其左（右）子树的深度之间的关系。显然，此树的深度 等于 左子树的深度 与 右子树的深度 中的 最大值 +1 。
+只有注释的地方需要注意
 
-![Picture1.png](https://pic.leetcode-cn.com/9b063f1f2b7ba125b97a2a11c5f774c0f8ff4df594696993a8eb8282750dae0d-Picture1.png)
+```java	
+public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root==null) return res;
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode p = root;
+        while (p!=null || !stack.isEmpty()){
+            while (p!=null){
+                //res.add(p.val);
+                stack.push(p);
+                p=p.left;//p=p.right
+            }
+            p = stack.pop();
+            //res.add(p.val);
+            p=p.right;//p=p.left
+        }
+        //Collections.reverse(res);
+        return res;
+    }
+```
 
-算法解析：
-终止条件： 当 root 为空，说明已越过叶节点，因此返回 深度 0 。
-递推工作： 本质上是对树做后序遍历。
-计算节点 root 的 左子树的深度 ，即调用 maxDepth(root.left)；
-计算节点 root 的 右子树的深度 ，即调用 maxDepth(root.right)；
-返回值： 返回 此树的深度 ，即 max(maxDepth(root.left), maxDepth(root.right)) + 1。
+#### 前序遍历
 
-复杂度分析：
-时间复杂度 O(N)O(N) ： NN 为树的节点数量，计算树的深度需要遍历所有节点。
-空间复杂度 O(N)O(N) ： 最差情况下（当树退化为链表时），递归深度可达到 NN 。
+只有注释地方需要改动 根->左->右
+
+```java
+public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root==null) return res;
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode p = root;
+        while (p!=null || !stack.isEmpty()){
+            while (p!=null){
+                //res.add(p.val);
+                stack.push(p);
+                //p=p.left;
+            }
+            p = stack.pop();
+            //p=p.right;
+        }
+        return res;
+}
+```
+
+#### 中序遍历
+
+只有注释地方需要改动 左->根->右
+
+```java
+public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root==null) return res;
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode p = root;
+        while (p!=null || !stack.isEmpty()){
+            while (p!=null){
+                stack.push(p);
+                //p=p.left;
+            }
+            p = stack.pop();
+            //res.add(p.val);
+            //p=p.right;
+        }
+        return res;
+}
+```
+
+#### 后序遍历
+
+只有注释地方需要改动 
+
+根->右->左 + 逆序 即为 左右根
+
+```java
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root==null) return res;
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode p = root;
+        while (p!=null || !stack.isEmpty()){
+            while (p!=null){
+                //res.add(p.val);
+                stack.push(p);
+                //p=p.right;
+            }
+            p = stack.pop();
+            //p=p.left;
+        }
+        //Collections.reverse(res);
+        return res;
+    }
+```
+
+
 
 
 
