@@ -664,3 +664,12 @@ Collections.reverse(xx)
 #### **1、概念**
 
 PriorityQueue类在Java1.5中引入。PriorityQueue是基于**优先堆**的一个无界队列，这个优先队列中的元素可以默认自然排序或者通过提供的Comparator（比较器）在队列实例化的时排序。要求使用Java Comparable和Comparator接口给对象排序，并且在排序时会按照优先级处理其中的元素。
+
+
+
+## other
+
+### Comparator
+
+compare的返回值有三种情况，正数，零，负数。当返回值为正数时，表示左值（a）大于右值（b），左值排列在右值的后面；当返回值为负数时，表示左值小于右值，，左值在右值的前面。
+
