@@ -677,9 +677,6 @@ void backtracking(args){
         收集结果;
         return;
     }
-    if(剪枝条件){
-        return;
-    }
     for(集合元素){
 		做选择;
 		backtracking(args);
