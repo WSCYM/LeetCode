@@ -672,14 +672,16 @@ PriorityQueue类在Java1.5中引入。PriorityQueue是基于**优先堆**的一�
 ### 模板
 
 ```java
-void backtracking(args){
-    if(终止条件){
+void backtrack(args){
+    if(终止条件){//若从各根节点开始收集，不加if
         收集结果;
         return;
     }
-    for(集合元素){
+    for(集合元素//思考是否可以剪枝
+       ){
+        //思考是否可以剪枝
 		做选择;
-		backtracking(args);
+		backtrack(args);
 		撤销选择;
     }
 }
