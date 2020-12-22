@@ -1,4 +1,4 @@
-package linkedList;
+package twoPointer;
 
 import classes.ListNode;
 
