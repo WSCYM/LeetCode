@@ -75,16 +75,26 @@ public int add(int a, int b) {
 
 
 
-二分查找思考方式，写的不错：https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/solution/da-jia-bu-yao-kan-labuladong-de-jie-fa-fei-chang-2/
+二分查找思考方式，写的不错：
+
+1.https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/solution/da-jia-bu-yao-kan-labuladong-de-jie-fa-fei-chang-2/
+
+2.https://www.cnblogs.com/kyoner/p/11080078.html
 
  tips:求最小化的最大值或者求最大化的最小值  eg.[1552. 两球之间的磁力](https://leetcode-cn.com/problems/magnetic-force-between-two-balls/)
 
-
-
-
-
 while (left <= right)	简单问题用，在循环体里能找到答案以后退出。
 while (left < right)	复杂问题用，把答案留到退出循环以后，再判断。是解决二分问题的利器，尤其在边界问题用，这种方式考虑细节最少，但是需要一定练习才能灵活运用。
+
+**写二分查找时要考虑剩余两个元素时是否会死循环**
+
+**注意：**
+
+**第一种方式向左收缩时right= mid - 1**
+
+**第二种方式向左收缩时right= mid**
+
+**若left=mid会进入死循环**
 
 #### 模板1
 
@@ -95,14 +105,13 @@ int binarySearch(int[] nums, int target){
 
   int left = 0, right = nums.length - 1;
   while(left <= right){
-    // Prevent (left + right) overflow
+  
     int mid = left + (right - left) / 2;
     if(nums[mid] == target){ return mid; }
     else if(nums[mid] < target) { left = mid + 1; }
     else { right = mid - 1; }
   }
 
-  // End Condition: left > right
   return -1;
 }
 ```
@@ -117,7 +126,7 @@ int binarySearch(int[] nums, int target){
 
 初始条件：left = 0, right = length-1
 终止：left > right
-向左查找：right = mid-1
+**向左查找：right = mid-1 **
 向右查找：left = mid+1
 
 #### 模板2
@@ -129,15 +138,12 @@ int binarySearch(int[] nums, int target){
 
   int left = 0, right = nums.length;
   while(left < right){
-    // Prevent (left + right) overflow
     int mid = left + (right - left) / 2;
     if(nums[mid] == target){ return mid; }
     else if(nums[mid] < target) { left = mid + 1; }
     else { right = mid; }
   }
 
-  // Post-processing:
-  // End Condition: left == right
   if(left != nums.length && nums[left] == target) return left;
   return -1;
 }
@@ -159,7 +165,7 @@ int binarySearch(int[] nums, int target){
 
 初始条件：left = 0, right = length
 终止：left == right
-向左查找：right = mid
+**向左查找：right = mid **
 向右查找：left = mid+1
 
 #### 模板2-2
