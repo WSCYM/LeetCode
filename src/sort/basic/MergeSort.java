@@ -1,10 +1,10 @@
-package sort;
+package sort.basic;
 
 import java.util.Arrays;
 
 public class MergeSort {
     //左闭右开
-    void mergeSort(int[] nums,int l,int r,int[] temp){
+    void sort(int[] nums,int l,int r,int[] temp){
         if (l+1>=r){
             return;
         }
@@ -22,11 +22,5 @@ public class MergeSort {
         for (i=l;i<r;i++){
             nums[i] = temp[i];
         }
-    }
-
-    public static void main(String[] args) {
-        int[] nums = new int[]{1,3,5,7,2,6,4,8,9,2,8,7,6,0,3,5,9,4,1,0};
-        new MergeSort().mergeSort(nums,0,nums.length,new int[nums.length]);
-        Arrays.stream(nums).forEach(System.out::println);
     }
 }
