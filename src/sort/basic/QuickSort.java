@@ -18,7 +18,7 @@ public class QuickSort {
             nums[last] = nums[first];
         }
         nums[first] = key;
-        quickSort(nums,l,first);
-        quickSort(nums,first+1,r);
+        sort(nums,l,first);
+        sort(nums,first+1,r);
     }
 }

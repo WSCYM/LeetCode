@@ -8,6 +8,8 @@ public class Main {
 //        new sort().mergeSort(nums,0,nums.length,new int[nums.length]);
 //        new sort().quickSort(nums,0,nums.length);
 //        new sort().insertionSort(nums,nums.length);
+//        new BubbleSort().sort(nums,nums.length);
+        new SelectSort().sort(nums,nums.length);
         Arrays.stream(nums).forEach(System.out::println);
     }
 }

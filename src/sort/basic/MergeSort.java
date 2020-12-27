@@ -9,8 +9,8 @@ public class MergeSort {
             return;
         }
         int m = l+(r-l)/2;
-        mergeSort(nums,l,m,temp);
-        mergeSort(nums,m,r,temp);
+        sort(nums,l,m,temp);
+        sort(nums,m,r,temp);
         int p=l,q=m,i=l;
         while (p<m || q<r){
             if (q>=r || (p<m && nums[p]<nums[q])){
