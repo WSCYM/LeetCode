@@ -1,21 +1,33 @@
 package sort.basic;
 
-public class 桶排序 {
-    public int[] topKFrequent(int[] nums, int k) {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+public class BucketSort {
+    //按频次排序
+    public int[] bucketSort(int[] nums) {
         List<Integer> res = new ArrayList<>();
         HashMap<Integer,Integer> hashMap = new HashMap<>();
-        for (int key : nums){
-            hashMap.put(key,hashMap.getOrDefault(key,0)+1);
+        for (int i : nums){
+            hashMap.put(i,hashMap.getOrDefault(i,0)+1);
         }
-        List<Integer>[] b = new List[nums.length+1];
+        List<Integer>[] bucket = new List[nums.length+1];
         for (int key : hashMap.keySet()){
-            if (b[hashMap.get(key)]==null) b[hashMap.get(key)] = new ArrayList<>();
-            b[hashMap.get(key)].add(key);
+            if (bucket[hashMap.get(key)]==null) bucket[hashMap.get(key)] = new ArrayList<>();
+            bucket[hashMap.get(key)].add(key);
         }
-        for (int i = nums.length;i>0 && res.size()<k;i--){
-            if (b[i]==null) continue;
-            res.addAll(b[i]);
+        for (int i =0;i<bucket.length;i++){
+            if (bucket[i]==null) continue;
+            res.addAll(bucket[i]);
         }
         return res.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public static void main(String[] args) {
+        int[] nums = new int[]{6,6,5,2,2,2,8,8,8,8,8,0};
+        int[] res = new BucketSort().bucketSort(nums);
+        Arrays.stream(res).forEach(System.out::println);
     }
 }

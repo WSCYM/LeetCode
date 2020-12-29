@@ -1,5 +1,130 @@
 # 算法
 
+## 排序
+
+### 冒泡排序
+
+```java
+public class BubbleSort {
+    void sort(int[] nums,int n){
+        boolean swapped;
+        for (int i = 1;i<n;i++){
+            swapped = false;
+            for (int j = 1;j<n-i+1;j++){
+                if (nums[j]<nums[j-1]){
+                    int tmp = nums[j];
+                    nums[j] = nums[j-1];
+                    nums[j-1] = tmp;
+                    swapped = true;
+                }
+            }
+            if (swapped == false) break;
+        }
+    }
+}
+```
+
+### 选择排序
+
+```java
+public class SelectSort {
+    void sort(int[] nums,int n){
+        int mid;
+        for (int i = 0;i<n-1;i++){
+            mid = i;
+            for (int j = i+1;j<n;j++){
+                if (nums[j]<nums[mid]){
+                    mid = j;
+                }
+            }
+            int tmp = nums[mid];
+            nums[mid] = nums[i];
+            nums[i] = tmp;
+        }
+    }
+}
+
+```
+
+### 插入排序
+
+```java
+public class InsertionSort {
+    void sort(int[] nums,int n){
+        for (int i = 0;i<n;i++){
+            for (int j = i;j>0 && nums[j]<nums[j-1];j--){
+                if (nums[j]>=nums[j-1]) break;
+                int temp = nums[j];
+                nums[j] = nums[j-1];
+                nums[j-1] = temp;
+            }
+        }
+    }
+}
+```
+
+### 快速排序
+
+```java
+public class QuickSort {
+    //左闭右开
+    public void sort(int[] nums,int l,int r){
+        if (l+1>=r){
+            return;
+        }
+        int first = l;int last = r-1;int key = nums[first];
+        while (first<last){
+            while (first<last && nums[last]>=key){
+                last--;
+            }
+            nums[first] = nums[last];
+            while (first<last && nums[first]<=key){
+                first++;
+            }
+            nums[last] = nums[first];
+        }
+        nums[first] = key;
+        sort(nums,l,first);
+        sort(nums,first+1,r);
+    }
+}
+```
+
+#### 快排变形题
+
+215.[[数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
+
+### 桶排序
+
+```java
+public class BucketSort {
+    //按频次排序
+    public int[] bucketSort(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        HashMap<Integer,Integer> hashMap = new HashMap<>();
+        for (int i : nums){
+            hashMap.put(i,hashMap.getOrDefault(i,0)+1);
+        }
+        List<Integer>[] bucket = new List[nums.length+1];
+        for (int key : hashMap.keySet()){
+            if (bucket[hashMap.get(key)]==null) bucket[hashMap.get(key)] = new ArrayList<>();
+            bucket[hashMap.get(key)].add(key);
+        }
+        for (int i =0;i<bucket.length;i++){
+            if (bucket[i]==null) continue;
+            res.addAll(bucket[i]);
+        }
+        return res.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
+```
+
+#### 桶排序变形题
+
+​	[前 K 个高频元素](https://leetcode-cn.com/problems/top-k-frequent-elements/)
+
+
+
 ## 数组
 
 ### 二分查找
