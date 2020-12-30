@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BucketSort {
     //按频次排序
-    public int[] bucketSort(int[] nums) {
+    public int[] sort(int[] nums) {
         List<Integer> res = new ArrayList<>();
         HashMap<Integer,Integer> hashMap = new HashMap<>();
         for (int i : nums){
@@ -23,11 +23,5 @@ public class BucketSort {
             res.addAll(bucket[i]);
         }
         return res.stream().mapToInt(Integer::intValue).toArray();
-    }
-
-    public static void main(String[] args) {
-        int[] nums = new int[]{6,6,5,2,2,2,8,8,8,8,8,0};
-        int[] res = new BucketSort().bucketSort(nums);
-        Arrays.stream(res).forEach(System.out::println);
     }
 }
