@@ -63,6 +63,33 @@ public class InsertionSort {
 }
 ```
 
+### 归并排序
+
+```java
+public class MergeSort {
+    //左闭右开
+    void sort(int[] nums,int l,int r,int[] temp){
+        if (l+1>=r){
+            return;
+        }
+        int m = l+(r-l)/2;
+        sort(nums,l,m,temp);
+        sort(nums,m,r,temp);
+        int p=l,q=m,i=l;
+        while (p<m || q<r){
+            if (q>=r || (p<m && nums[p]<nums[q])){
+                temp[i++] = nums[p++];
+            } else {
+                temp[i++] = nums[q++];
+            }
+        }
+        for (i=l;i<r;i++){
+            nums[i] = temp[i];
+        }
+    }
+}
+```
+
 ### 快速排序
 
 ```java
@@ -123,7 +150,55 @@ public class BucketSort {
 
 ​	[前 K 个高频元素](https://leetcode-cn.com/problems/top-k-frequent-elements/)
 
+### 堆排序
 
+```java
+public class HeapSort {
+
+    public void sort(int[] nums){
+        int heapSize = nums.length;
+        buildMaxHeap(nums,heapSize);
+        for (int i = nums.length-1;i>=0;i--){
+            swap(nums,0,i);
+            heapSize--;
+            maxHeapify(nums,0,heapSize);
+        }
+    }
+	//建堆
+    //从最后一个非叶子节点开始调整
+    public void buildMaxHeap(int[] nums,int heapSize){
+        for (int i = nums.length/2;i>=0;i--){
+            maxHeapify(nums,i,heapSize);
+        }
+    }
+	以第i个位置为根的子树调整为最大堆
+    public void maxHeapify(int[] a,int i,int heapSize){
+        int l=2*i+1;
+        int r = 2*i+2;
+        int largest = i;
+        if (l<heapSize && a[l]>a[largest]){
+            largest = l;
+        }
+        if (r<heapSize && a[r]>a[largest]){
+            largest = r;
+        }
+        if (largest!=i){
+            swap(a,i,largest);
+            maxHeapify(a,largest,heapSize);
+        }
+    }
+
+    public void swap(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+}
+```
+
+#### 堆排序变形题
+
+[数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)
 
 ## 数组
 

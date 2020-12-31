@@ -16,6 +16,7 @@ public class Main {
 //        int[] sort = new BucketSort().sort(nums2);
 //        Arrays.stream(sort).forEach(System.out::println);
 
+        new HeapSort().sort(nums);
         Arrays.stream(nums).forEach(System.out::println);
     }
 }
