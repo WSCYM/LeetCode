@@ -7,23 +7,23 @@ import java.util.List;
 public class 全排列 {
     List<List<Integer>> res = new ArrayList<>();
     public List<List<Integer>> permute(int[] nums) {
-        LinkedList<Integer> track = new LinkedList<>();
-        backtrack(nums,track);
+        LinkedList<Integer> path = new LinkedList<>();
+        backtracking(nums,path);
         return res;
     }
 
-    void backtrack(int[] nums, LinkedList<Integer> track){
-        if (nums.length==track.size()){
-            res.add(new ArrayList<>(track));
+    void backtracking(int[] nums,LinkedList<Integer> path){
+        if (path.size()==nums.length){
+            res.add(new ArrayList<>(path));
             return;
         }
-        for (int i : nums){
-            if (track.contains(i)){
+        for (int i = 0;i<nums.length;i++){
+            if (path.contains(nums[i])){
                 continue;
             }
-            track.add(i);
-            backtrack(nums,track);
-            track.removeLast();
+            path.add(nums[i]);
+            backtracking(nums,path);
+            path.removeLast();
         }
     }
 }
