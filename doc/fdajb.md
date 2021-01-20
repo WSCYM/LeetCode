@@ -746,3 +746,105 @@ void backtrack(args){
 e: [环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/) 
 
 对于链表找环路的问题，有一个通用的解法 。给定两个指针，分别命名为 slow 和 fast，起始位置在链表的开头。每次 fast 前进两步， slow 前进一步。如果 fast可以走到尽头，那么说明没有环路；如果 fast 可以无限走下去，那么说明一定有环路，且一定存在一个时刻 slow 和 fast 相遇。当 slow 和 fast 第一次相遇时，我们将 fast 重新移动到链表开头，并让 slow 和 fast 每次都前进一步。当 slow 和 fast 第二次相遇时，相遇的节点即为环路的开始点。 
+
+
+
+
+
+## 分治
+
+```java
+int divideConquer(args){
+        //1.递归出口
+        //2.将问题分解为更小的子问题
+        //3.分别处理各子问题
+    	//4.汇总结果，返回
+ }
+```
+
+eg1:[面试题 16.17. 连续数列](https://leetcode-cn.com/problems/contiguous-sequence-lcci/)
+
+给定一个整数数组，找出总和最大的连续数列，并返回总和。
+
+```java
+class Solution {
+    public int maxSubArray(int[] nums) {
+        return helper(nums,0,nums.length-1);
+    }
+
+    private int helper(int[] nums,int lo,int hi){
+        //1.递归出口
+        if (lo>=hi){
+            return nums[lo];
+        }
+        //2.将问题分解为更小的子问题
+        int mid = lo + (hi-lo)/2;
+        int left = helper(nums,lo,mid-1);
+        int right = helper(nums,mid+1,hi);
+        //3.分别处理各子问题
+        int maxSumMidL = 0;
+        int maxSumMidR = 0;
+        int sumMidL = 0;
+        int sumMidR = 0;
+        for (int i = mid-1;i>=0;i--){
+            sumMidL+=nums[i];
+            if (sumMidL>maxSumMidL){
+                maxSumMidL = sumMidL;
+            }
+        }
+        for (int i = mid+1;i<=hi;i++){
+            sumMidR+=nums[i];
+            if (sumMidR>maxSumMidR){
+                maxSumMidR = sumMidR;
+            }
+        }
+        //4.汇总结果，返回
+        int maxSumMid = maxSumMidL+maxSumMidR+nums[mid];
+        return Math.max(Math.max(left,right),maxSumMid);
+    }
+}
+```
+
+
+
+eg2:[95. 不同的二叉搜索树 II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)
+
+给定一个整数 *n*，生成所有由 1 ... *n* 为节点所组成的 **二叉搜索树** 。
+
+```java
+class Solution {
+    public List<TreeNode> generateTrees(int n) {
+        int[] arr = new int[n];
+        for (int i = 0;i<arr.length;i++){
+            arr[i] = i+1;
+        }
+        return helper(arr,0,arr.length-1);
+    }
+
+    private List<TreeNode> helper(int[] nums,int low,int high){
+        List<TreeNode> res = new ArrayList<>();
+        //1.递归出口
+        if (low>high){
+            res.add(null);
+            return res;
+        }
+        //2.将问题分解为更小的子问题
+        //3.分别处理各子问题
+        //4.汇总结果，返回
+        for (int i=low;i<=high;i++){
+            List<TreeNode> left = helper(nums, low, i - 1);
+            List<TreeNode> right = helper(nums,i+1,high);
+            for (TreeNode l : left){
+                for (TreeNode r : right){
+                    TreeNode node = new TreeNode(nums[i]);
+                    node.left = l;
+                    node.right = r;
+                    res.add(node);
+                }
+            }
+        }
+        return res;
+    }
+}
+```
+
