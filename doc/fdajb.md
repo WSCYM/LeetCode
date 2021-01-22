@@ -758,49 +758,43 @@ int divideConquer(args){
         //1.递归出口
         //2.将问题分解为更小的子问题
         //3.分别处理各子问题
-    	//4.汇总结果，返回
+    	//4.整理结果，返回
  }
 ```
 
-eg1:[面试题 16.17. 连续数列](https://leetcode-cn.com/problems/contiguous-sequence-lcci/)
+[剑指 Offer 42. 连续子数组的最大和](https://leetcode-cn.com/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/)]
 
-给定一个整数数组，找出总和最大的连续数列，并返回总和。
+输入一个整型数组，数组中的一个或连续多个整数组成一个子数组。求所有子数组的和的最大值。
 
 ```java
 class Solution {
     public int maxSubArray(int[] nums) {
-        return helper(nums,0,nums.length-1);
+        return divideConquer(nums,0,nums.length-1);
     }
 
-    private int helper(int[] nums,int lo,int hi){
+    public int divideConquer(int[] nums,int low,int high) {
         //1.递归出口
-        if (lo>=hi){
-            return nums[lo];
+        if (low>=high){
+            return nums[low];
         }
         //2.将问题分解为更小的子问题
-        int mid = lo + (hi-lo)/2;
-        int left = helper(nums,lo,mid-1);
-        int right = helper(nums,mid+1,hi);
         //3.分别处理各子问题
-        int maxSumMidL = 0;
-        int maxSumMidR = 0;
-        int sumMidL = 0;
-        int sumMidR = 0;
-        for (int i = mid-1;i>=0;i--){
-            sumMidL+=nums[i];
-            if (sumMidL>maxSumMidL){
-                maxSumMidL = sumMidL;
-            }
+        int mid = low+(high-low)/2;
+        int left = divideConquer(nums,low,mid-1);
+        int right = divideConquer(nums,mid+1,high);
+        int maxMid = nums[mid];
+        int curMId = nums[mid];
+        for (int i = mid-1;i>=low;i--){
+            curMId += nums[i];
+            if (maxMid<curMId) maxMid = curMId;
         }
-        for (int i = mid+1;i<=hi;i++){
-            sumMidR+=nums[i];
-            if (sumMidR>maxSumMidR){
-                maxSumMidR = sumMidR;
-            }
+        curMId = maxMid;
+        for (int i = mid+1;i<=high;i++){
+            curMId += nums[i];
+            if (maxMid<curMId) maxMid = curMId;
         }
-        //4.汇总结果，返回
-        int maxSumMid = maxSumMidL+maxSumMidR+nums[mid];
-        return Math.max(Math.max(left,right),maxSumMid);
+        //4.整理结果，返回
+        return Math.max(Math.max(left,right),maxMid);
     }
 }
 ```
@@ -844,6 +838,90 @@ class Solution {
             }
         }
         return res;
+    }
+}
+```
+
+## 数学
+
+### 利用辗转相除法求最大公因数和最小公倍数
+
+#### 1.求最大公因数
+
+![](E:\javaProject\LeetCode\doc\imgs\zzxc.png)
+
+#### 2.求最小公倍数
+
+利用辗转相除法，我们可以很方便地求得两个数的最大公因数（greatest common divisor， gcd）；
+将两个数相乘再除以最大公因数即可得到最小公倍数（least common multiple, lcm）。 
+
+```java
+int gcd(int a, int b) {
+return b == 0 ? a : gcd(b, a% b);
+}
+int lcm(int a, int b) {
+return a * b / gcd(a, b);
+}
+```
+
+#### 3.求gcd系数
+
+进一步地，我们也可以通过扩展欧几里得算法（extended gcd）在求得 a 和 b 最大公因数的同
+时，也得到它们的系数 x 和 y，从而使 ax + by = gcd(a, b)。 
+
+```java
+class Pony{
+    static int x,y;
+    static int exgcd(int a,int b)
+    {
+        if(b==0){
+            x=1;y=0;
+            return a;
+        }
+        else{
+            int ret=exgcd(b,a%b);
+            int tmp=x;
+            x=y;y=tmp-(a/b)*y;
+            return ret;
+        }
+    }
+
+    public static void main(String[] args) throws Exception
+    {
+        int a,b;a=54;b=27;
+        exgcd(a,b);
+        System.out.println(x+" "+y);
+    }
+}
+```
+
+### 埃拉托斯特尼筛法求质数
+
+从 1 到 n 遍历，假设当前遍历到 m，则把所有小于 n 的、且是 m 的倍数的整数标为和数；遍历完成后，没有被标为和数的数字即为质数。 
+
+```java
+class Solution {
+    public int countPrimes(int n) {
+        boolean[] isPrim = new boolean[n];
+        Arrays.fill(isPrim, true);
+        // 从 2 开始枚举到 sqrt(n)。
+        for (int i = 2; i * i < n; i++) {
+            // 如果当前是素数
+            if (isPrim[i]) {
+                // 就把从 i*i 开始，i 的所有倍数都设置为 false。
+                for (int j = i * i; j < n; j+=i) {
+                    isPrim[j] = false;
+                }
+            }
+        }
+        // 计数
+        int cnt = 0;
+        for (int i = 2; i < n; i++) {
+            if (isPrim[i]) {
+                cnt++;
+            }
+        }
+        return cnt;
     }
 }
 ```
