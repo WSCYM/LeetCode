@@ -895,6 +895,27 @@ class Pony{
 }
 ```
 
+#### 例题
+
+#### [365. 水壶问题](https://leetcode-cn.com/problems/water-and-jug-problem/)
+
+```java
+public boolean canMeasureWater(int x, int y, int z) {
+        if (x==0&&y==0) return z==0?true:false;
+        if (x==0||y==0) return x==0?z%y==0:z%x==0;
+        if(x+y<z) return false;
+        if (z%gcd(x,y)==0){
+            return true;
+        } else return false;
+    }
+
+    int gcd(int a,int b){
+        return b==0?a:gcd(b,a%b);
+    }
+```
+
+
+
 ### 埃拉托斯特尼筛法求质数
 
 从 1 到 n 遍历，假设当前遍历到 m，则把所有小于 n 的、且是 m 的倍数的整数标为和数；遍历完成后，没有被标为和数的数字即为质数。 
@@ -925,4 +946,6 @@ class Solution {
     }
 }
 ```
+
+
 
