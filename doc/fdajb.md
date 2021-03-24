@@ -958,6 +958,10 @@ x ^ x = 0                x & x = x                   x | x = x
 
 https://blog.csdn.net/yo_bc/article/details/74511066
 
+int大小为什么正负不对称？
+
+参考 : https://blog.csdn.net/baidu_41795891/article/details/108744924
+
 ### 14.3 负数的左移和右移
 
 在机器中，数的二进制码都是其补码。
