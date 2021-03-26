@@ -1,3 +1,5 @@
+
+
 # 一 算法
 
 ## 1 排序
@@ -1413,4 +1415,557 @@ input.close();Copy to clipboardErrorCopied
 BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 String s = input.readLine();
 ```
+
+
+
+## 3 JAVA核心技术
+
+### 3.1 反射机制
+
+具体实现参考：https://blog.csdn.net/huangliniqng/article/details/88554510
+
+JAVA 反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为 java 语言的反射机制。（私有的方法也可以调用）
+
+#### 3.1.1 静态编译和动态编译
+
+- **静态编译：** 在编译时确定类型，绑定对象
+- **动态编译：** 运行时确定类型，绑定对象
+
+#### 3.1.2 反射机制优缺点
+
+- **优点：** 运行期类型的判断，动态加载类，提高代码灵活度。
+- **缺点：** 1,性能瓶颈：反射相当于一系列解释操作，通知 JVM 要做的事情，性能比直接的 java 代码要慢很多。2,安全问题，让我们可以动态操作改变类的属性同时也增加了类的安全隐患。
+
+#### 3.1.3 反射的应用场景
+
+**反射是框架设计的灵魂。**
+
+在我们平时的项目开发过程中，基本上很少会直接使用到反射机制，但这不能说明反射机制没有用，实际上有很多设计、开发都与反射机制有关，例如模块化的开发，通过反射去调用对应的字节码；动态代理设计模式也采用了反射机制，还有我们日常使用的 Spring／Hibernate 等框架也大量使用到了反射机制。
+
+举例：
+
+1. 我们在使用 JDBC 连接数据库时使用 `Class.forName()`通过反射加载数据库的驱动程序；
+2. Spring 框架的 IOC（动态加载管理 Bean）创建对象以及 AOP（动态代理）功能都和反射有联系；
+3. 动态配置实例的属性；
+
+### [3.2. 异常](https://snailclimb.gitee.io/javaguide/#/docs/java/basis/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86?id=_32-%e5%bc%82%e5%b8%b8)
+
+#### 3.2.1 Java异常类层次结构图
+
+![exception1](.\imgs\exception1.png)
+
+![exception2](.\imgs\exception2.png)
+
+在 Java 中，所有的异常都有一个共同的祖先 `java.lang` 包中的 `Throwable` 类。`Throwable` 类有两个重要的子类 `Exception`（异常）和 `Error`（错误）。`Exception` 能被程序本身处理(`try-catch`)， `Error` 是无法处理的(只能尽量避免)。
+
+`Exception` 和 `Error` 二者都是 Java 异常处理的重要子类，各自都包含大量子类。
+
+- **Exception** :程序本身可以处理的异常，可以通过 `catch` 来进行捕获。`Exception` 又可以分为 受检查异常(必须处理) 和 不受检查异常(可以不处理)。
+- **Error** ：`Error` 属于程序无法处理的错误 ，我们没办法通过 `catch` 来进行捕获 。例如，Java 虚拟机运行错误（`Virtual MachineError`）、虚拟机内存不够错误(`OutOfMemoryError`)、类定义错误（`NoClassDefFoundError`）等 。这些异常发生时，Java 虚拟机（JVM）一般会选择线程终止。
+
+**受检查异常**
+
+Java 代码在编译过程中，如果受检查异常没有被 `catch`/`throw` 处理的话，就没办法通过编译 。
+
+除了`RuntimeException`及其子类以外，其他的`Exception`类及其子类都属于受检查异常 。常见的受检查异常有： IO 相关的异常、`ClassNotFoundException` 、`SQLException`...。
+
+**不受检查异常**
+
+Java 代码在编译过程中 ，我们即使不处理不受检查异常也可以正常通过编译。
+
+`RuntimeException` 及其子类都统称为非受检查异常，例如：`NullPointerException`、`NumberFormatException`（字符串转换为数字）、`ArrayIndexOutOfBoundsException`（数组越界）、`ClassCastException`（类型转换错误）、`ArithmeticException`（算术错误）等。
+
+#### 3.2.2  Throwable 类常用方法
+
+- **public string getMessage()**:返回异常发生时的简要描述
+- **public string toString()**:返回异常发生时的详细信息
+- **public string getLocalizedMessage()**:返回异常对象的本地化信息。使用 `Throwable` 的子类覆盖这个方法，可以生成本地化信息。如果子类没有覆盖该方法，则该方法返回的信息与 `getMessage（）`返回的结果相同
+- **public void printStackTrace()**:在控制台上打印 `Throwable` 对象封装的异常信息
+
+#### 3.2.3 try-catch-finally
+
+- **try块：** 用于捕获异常。其后可接零个或多个 `catch` 块，如果没有 `catch` 块，则必须跟一个 `finally` 块。
+- **catch块：** 用于处理 try 捕获到的异常。
+- **finally 块：** 无论是否捕获或处理异常，`finally` 块里的语句都会被执行。当在 `try` 块或 `catch` 块中遇到 `return` 语句时，`finally` 语句块将在方法返回之前被执行。
+
+**在以下 3 种特殊情况下，finally 块不会被执行：**
+
+1. 在 `try` 或 `finally `块中用了 `System.exit(int)`退出程序。但是，如果 `System.exit(int)` 在异常语句之后，`finally` 还是会被执行
+2. 程序所在的线程死亡。
+3. 关闭 CPU。
+
+#### 3.2.4 使用 `try-with-resources` 来代替 try-catch-finally
+
+1. **适用范围（资源的定义）：** 任何实现 `java.lang.AutoCloseable`或者 `java.io.Closeable` 的对象
+2. **关闭资源和 final 的执行顺序：** 在 `try-with-resources` 语句中，任何 catch 或 finally 块在声明的资源关闭后运行
+
+《Effecitve Java》中明确指出：
+
+> 面对必须要关闭的资源，我们总是应该优先使用 `try-with-resources` 而不是`try-finally`。随之产生的代码更简短，更清晰，产生的异常对我们也更有用。`try-with-resources`语句让我们更容易编写必须要关闭的资源的代码，若采用`try-finally`则几乎做不到这点。
+
+Java 中类似于`InputStream`、`OutputStream` 、`Scanner` 、`PrintWriter`等的资源都需要我们调用`close()`方法来手动关闭，一般情况下我们都是通过`try-catch-finally`语句来实现这个需求，如下：
+
+```java
+        //读取文本文件的内容
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new File("D://read.txt"));
+            while (scanner.hasNext()) {
+                System.out.println(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
+        }Copy to clipboardErrorCopied
+```
+
+使用 Java 7 之后的 `try-with-resources` 语句改造上面的代码:
+
+```java
+try (Scanner scanner = new Scanner(new File("test.txt"))) {
+    while (scanner.hasNext()) {
+        System.out.println(scanner.nextLine());
+    }
+} catch (FileNotFoundException fnfe) {
+    fnfe.printStackTrace();
+}Copy to clipboardErrorCopied
+```
+
+当然多个资源需要关闭的时候，使用 `try-with-resources` 实现起来也非常简单，如果你还是用`try-catch-finally`可能会带来很多问题。
+
+通过使用分号分隔，可以在`try-with-resources`块中声明多个资源。
+
+```java
+try (BufferedInputStream bin = new BufferedInputStream(new FileInputStream(new File("test.txt")));
+             BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(new File("out.txt")))) {
+            int b;
+            while ((b = bin.read()) != -1) {
+                bout.write(b);
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+```
+
+
+
+### 3.3 多线程
+
+#### 3.3.1. 简述线程、程序、进程的基本概念。以及他们之间关系是什么?
+
+**线程**与进程相似，但线程是一个比进程更小的执行单位。一个进程在其执行的过程中可以产生多个线程。与进程不同的是同类的多个线程共享同一块内存空间和一组系统资源，所以系统在产生一个线程，或是在各个线程之间作切换工作时，负担要比进程小得多，也正因为如此，线程也被称为轻量级进程。
+
+**程序**是含有指令和数据的文件，被存储在磁盘或其他的数据存储设备中，也就是说程序是静态的代码。
+
+**进程**是程序的一次执行过程，是系统运行程序的基本单位，因此进程是动态的。系统运行一个程序即是一个进程从创建，运行到消亡的过程。简单来说，一个进程就是一个执行中的程序，它在计算机中一个指令接着一个指令地执行着，同时，每个进程还占有某些系统资源如 CPU 时间，内存空间，文件，输入输出设备的使用权等等。换句话说，当程序在执行时，将会被操作系统载入内存中。 线程是进程划分成的更小的运行单位。线程和进程最大的不同在于基本上各进程是独立的，而各线程则不一定，因为同一进程中的线程极有可能会相互影响。从另一角度来说，进程属于操作系统的范畴，主要是同一段时间内，可以同时执行一个以上的程序，而线程则是在同一程序内几乎同时执行一个以上的程序段。
+
+#### 3.3.2. 线程有哪些基本状态?
+
+Java 线程在运行的生命周期中的指定时刻只可能处于下面 6 种不同状态的其中一个状态（图源《Java 并发编程艺术》4.1.4 节）。
+
+![thread1](.\imgs\thread1.png)
+
+线程在生命周期中并不是固定处于某一个状态而是随着代码的执行在不同状态之间切换。Java 线程状态变迁如下图所示（图源《Java 并发编程艺术》4.1.4 节）：
+
+![thread2](.\imgs\thread2.png)
+
+由上图可以看出：
+
+线程创建之后它将处于 **NEW（新建）** 状态，调用 `start()` 方法后开始运行，线程这时候处于 **READY（可运行）** 状态。可运行状态的线程获得了 cpu 时间片（timeslice）后就处于 **RUNNING（运行）** 状态。
+
+> 操作系统隐藏 Java 虚拟机（JVM）中的 READY 和 RUNNING 状态，它只能看到 RUNNABLE 状态（图源：[HowToDoInJava](https://howtodoinjava.com/)：[Java Thread Life Cycle and Thread States](https://howtodoinjava.com/java/multi-threading/java-thread-life-cycle-and-thread-states/)），所以 Java 系统一般将这两个状态统称为 **RUNNABLE（运行中）** 状态 。
+>
+> ![thread3](.\imgs\thread3.png)
+
+当线程执行 `wait()`方法之后，线程进入 **WAITING（等待）** 状态。进入等待状态的线程需要依靠其他线程的通知才能够返回到运行状态，而 **TIME_WAITING(超时等待)** 状态相当于在等待状态的基础上增加了超时限制，比如通过 `sleep（long millis）`方法或 `wait（long millis）`方法可以将 Java 线程置于 TIMED WAITING 状态。当超时时间到达后 Java 线程将会返回到 RUNNABLE 状态。当线程调用同步方法时，在没有获取到锁的情况下，线程将会进入到 **BLOCKED（阻塞）** 状态。线程在执行 Runnable 的`run()`方法之后将会进入到 **TERMINATED（终止）** 状态。
+
+
+
+### 3.4 文件与 I\O 流
+
+#### 3.4.1 Java 中 IO 流分为几种?
+
+- 按照流的流向分，可以分为输入流和输出流；
+- 按处理数据单位不同：字节流，字符流。
+  （1） 字节流：数据流中最小的数据单元是字节。
+  （2）字符流：数据流中最小的数据单元是字符， Java中的字符是Unicode编码，一个字符占用两个字节。
+  按功能不同：节点流，处理流。
+  （1）程序用于直接操作目标设备所对应的类叫节点流。
+  （2）程序通过一个间接流类去调用节点流类，以达到更加灵活方便地读写各种类型的数据，这个间接流类就是处理流。
+
+Java Io 流共涉及 40 多个类，这些类看上去很杂乱，但实际上很有规则，而且彼此之间存在非常紧密的联系， Java I0 流的 40 多个类都是从如下 4 个抽象类基类中派生出来的。
+
+- InputStream/Reader: 所有的输入流的基类，前者是字节输入流，后者是字符输入流。
+- OutputStream/Writer: 所有输出流的基类，前者是字节输出流，后者是字符输出流。
+
+按操作方式分类结构图：
+
+![IO-操作方式分类](.\imgs\io1.png)
+
+按操作对象分类结构图：
+
+![IO-操作对象分类](.\imgs\io2.png)
+
+##### 3.4.1.1. 既然有了字节流,为什么还要有字符流?
+
+问题本质想问：**不管是文件读写还是网络发送接收，信息的最小存储单元都是字节，那为什么 I/O 流操作要分为字节流操作和字符流操作呢？**
+
+回答：字符流是由 Java 虚拟机将字节转换得到的，问题就出在这个过程还算是非常耗时，并且，如果我们不知道编码类型就很容易出现乱码问题。所以， I/O 流就干脆提供了一个直接操作字符的接口，方便我们平时对字符进行流操作。如果音频文件、图片等媒体文件用字节流比较好，如果涉及到字符的话使用字符流比较好。
+
+##### 3.4.1.2. BIO,NIO,AIO 有什么区别?
+
+- **BIO (Blocking I/O):** 同步阻塞 I/O 模式，数据的读取写入必须阻塞在一个线程内等待其完成。在活动连接数不是特别高（小于单机 1000）的情况下，这种模型是比较不错的，可以让每一个连接专注于自己的 I/O 并且编程模型简单，也不用过多考虑系统的过载、限流等问题。线程池本身就是一个天然的漏斗，可以缓冲一些系统处理不了的连接或请求。但是，当面对十万甚至百万级连接的时候，传统的 BIO 模型是无能为力的。因此，我们需要一种更高效的 I/O 处理模型来应对更高的并发量。
+- **NIO (Non-blocking/New I/O):** NIO 是一种同步非阻塞的 I/O 模型，在 Java 1.4 中引入了 NIO 框架，对应 java.nio 包，提供了 Channel , Selector，Buffer 等抽象。NIO 中的 N 可以理解为 Non-blocking，不单纯是 New。它支持面向缓冲的，基于通道的 I/O 操作方法。 NIO 提供了与传统 BIO 模型中的 `Socket` 和 `ServerSocket` 相对应的 `SocketChannel` 和 `ServerSocketChannel` 两种不同的套接字通道实现,两种通道都支持阻塞和非阻塞两种模式。阻塞模式使用就像传统中的支持一样，比较简单，但是性能和可靠性都不好；非阻塞模式正好与之相反。对于低负载、低并发的应用程序，可以使用同步阻塞 I/O 来提升开发速率和更好的维护性；对于高负载、高并发的（网络）应用，应使用 NIO 的非阻塞模式来开发
+- **AIO (Asynchronous I/O):** AIO 也就是 NIO 2。在 Java 7 中引入了 NIO 的改进版 NIO 2,它是异步非阻塞的 IO 模型。异步 IO 是基于事件和回调机制实现的，也就是应用操作之后会直接返回，不会堵塞在那里，当后台处理完成，操作系统会通知相应的线程进行后续的操作。AIO 是异步 IO 的缩写，虽然 NIO 在网络操作中，提供了非阻塞的方法，但是 NIO 的 IO 行为还是同步的。对于 NIO 来说，我们的业务线程是在 IO 操作准备好时，得到通知，接着就由这个线程自行进行 IO 操作，IO 操作本身是同步的。查阅网上相关资料，我发现就目前来说 AIO 的应用还不是很广泛，Netty 之前也尝试使用过 AIO，不过又放弃了。
+
+## 4 易错点
+
+### 1 基础
+
+#### 1.1 正确使用 equals 方法
+
+Object的equals方法容易抛空指针异常，应使用常量或确定有值的对象来调用 equals。
+
+举个例子：
+
+```java
+// 不能使用一个值为null的引用类型变量来调用非静态方法，否则会抛出异常
+String str = null;
+if (str.equals("SnailClimb")) {
+  ...
+} else {
+  ..
+}Copy to clipboardErrorCopied
+```
+
+运行上面的程序会抛出空指针异常，但是我们把第二行的条件判断语句改为下面这样的话，就不会抛出空指针异常，else 语句块得到执行。：
+
+```java
+"SnailClimb".equals(str);// false Copy to clipboardErrorCopied
+```
+
+不过更推荐使用 `java.util.Objects#equals`(JDK7 引入的工具类)。
+
+```java
+Objects.equals(null,"SnailClimb");// falseCopy to clipboardErrorCopied
+```
+
+我们看一下`java.util.Objects#equals`的源码就知道原因了。
+
+```java
+public static boolean equals(Object a, Object b) {
+    // 可以避免空指针异常。如果a==null的话此时a.equals(b)就不会得到执行，避免出现空指针异常。
+    return (a == b) || (a != null && a.equals(b));
+}
+```
+
+#### 1.2 整型包装类值的比较
+
+所有整型包装类对象值的比较必须使用equals方法。
+
+先看下面这个例子：
+
+```java
+Integer x = 3;
+Integer y = 3;
+System.out.println(x == y);// true
+Integer a = new Integer(3);
+Integer b = new Integer(3);
+System.out.println(a == b);//false
+System.out.println(a.equals(b));//trueCopy to clipboardErrorCopied
+```
+
+当使用自动装箱方式创建一个Integer对象时，当数值在-128 ~127时，会将创建的 Integer 对象缓存起来，当下次再出现该数值时，直接从缓存中取出对应的Integer对象。所以上述代码中，x和y引用的是相同的Integer对象。
+
+**注意：** 如果你的IDE(IDEA/Eclipse)上安装了阿里巴巴的p3c插件，这个插件如果检测到你用 ==的话会报错提示，推荐安装一个这个插件，很不错。
+
+#### 1.3. BigDecimal
+
+##### 1.3.1 BigDecimal 的用处
+
+《阿里巴巴Java开发手册》中提到：**浮点数之间的等值判断，基本数据类型不能用==来比较，包装数据类型不能用 equals 来判断。** 具体原理和浮点数的编码方式有关，这里就不多提了，我们下面直接上实例：
+
+```java
+float a = 1.0f - 0.9f;
+float b = 0.9f - 0.8f;
+System.out.println(a);// 0.100000024
+System.out.println(b);// 0.099999964
+System.out.println(a == b);// falseCopy to clipboardErrorCopied
+```
+
+具有基本数学知识的我们很清楚的知道输出并不是我们想要的结果（**精度丢失**），我们如何解决这个问题呢？一种很常用的方法是：**使用使用 BigDecimal 来定义浮点数的值，再进行浮点数的运算操作。**
+
+```java
+BigDecimal a = new BigDecimal("1.0");
+BigDecimal b = new BigDecimal("0.9");
+BigDecimal c = new BigDecimal("0.8");
+
+BigDecimal x = a.subtract(b); 
+BigDecimal y = b.subtract(c); 
+
+System.out.println(x); /* 0.1 */
+System.out.println(y); /* 0.1 */
+System.out.println(Objects.equals(x, y)); /* true */Copy to clipboardErrorCopied
+```
+
+##### 1.3.2. BigDecimal 的大小比较
+
+`a.compareTo(b)` : 返回 -1 表示 `a` 小于 `b`，0 表示 `a` 等于 `b` ， 1表示 `a` 大于 `b`。
+
+```java
+BigDecimal a = new BigDecimal("1.0");
+BigDecimal b = new BigDecimal("0.9");
+System.out.println(a.compareTo(b));// 1Copy to clipboardErrorCopied
+```
+
+##### 1.3.3 BigDecimal 保留几位小数
+
+通过 `setScale`方法设置保留几位小数以及保留规则。保留规则有挺多种，不需要记，IDEA会提示。
+
+##### 1.3.4 BigDecimal 的使用注意事项
+
+注意：我们在使用BigDecimal时，为了防止精度丢失，推荐使用它的 **BigDecimal(String)** 构造方法来创建对象。《阿里巴巴Java开发手册》对这部分内容也有提到如下图所示。
+
+![bigDecimal1](.\imgs\bigDecimal1.png)
+
+##### 1.3.5 总结
+
+BigDecimal 主要用来操作（大）浮点数，BigInteger 主要用来操作大整数（超过 long 类型）。
+
+BigDecimal 的实现利用到了 BigInteger, 所不同的是 BigDecimal 加入了小数位的概念
+
+### 2 集合
+
+#### 2.1. Arrays.asList()使用指南
+
+最近使用`Arrays.asList()`遇到了一些坑，然后在网上看到这篇文章：[Java Array to List Examples](http://javadevnotes.com/java-array-to-list-examples) 感觉挺不错的，但是还不是特别全面。所以，自己对于这块小知识点进行了简单的总结。
+
+##### 2.1.1. 简介
+
+`Arrays.asList()`在平时开发中还是比较常见的，我们可以使用它将一个数组转换为一个List集合。
+
+```java
+String[] myArray = {"Apple", "Banana", "Orange"};
+List<String> myList = Arrays.asList(myArray);
+//上面两个语句等价于下面一条语句
+List<String> myList = Arrays.asList("Apple","Banana", "Orange");Copy to clipboardErrorCopied
+```
+
+JDK 源码对于这个方法的说明：
+
+```java
+/**
+  *返回由指定数组支持的固定大小的列表。此方法作为基于数组和基于集合的API之间的桥梁，
+  * 与 Collection.toArray()结合使用。返回的List是可序列化并实现RandomAccess接口。
+  */
+public static <T> List<T> asList(T... a) {
+    return new ArrayList<>(a);
+}Copy to clipboardErrorCopied
+```
+
+##### 2.1.2. 《阿里巴巴Java 开发手册》对其的描述
+
+`Arrays.asList()`将数组转换为集合后,底层其实还是数组，《阿里巴巴Java 开发手册》对于这个方法有如下描述：
+
+![bigDecimal1](.\imgs\asList1.png)
+
+##### 2.1.3. 使用时的注意事项总结
+
+**传递的数组必须是对象数组，而不是基本类型。**
+
+`Arrays.asList()`是泛型方法，传入的对象必须是对象数组。
+
+```java
+int[] myArray = {1, 2, 3};
+List myList = Arrays.asList(myArray);
+System.out.println(myList.size());//1
+System.out.println(myList.get(0));//数组地址值
+System.out.println(myList.get(1));//报错：ArrayIndexOutOfBoundsException
+int[] array = (int[]) myList.get(0);
+System.out.println(array[0]);//1Copy to clipboardErrorCopied
+```
+
+当传入一个原生数据类型数组时，`Arrays.asList()` 的真正得到的参数就不是数组中的元素，而是数组对象本身！此时List 的唯一元素就是这个数组，这也就解释了上面的代码。
+
+我们使用包装类型数组就可以解决这个问题。
+
+```java
+Integer[] myArray = {1, 2, 3};Copy to clipboardErrorCopied
+```
+
+**使用集合的修改方法:add()、remove()、clear()会抛出异常。**
+
+```java
+List myList = Arrays.asList(1, 2, 3);
+myList.add(4);//运行时报错：UnsupportedOperationException
+myList.remove(1);//运行时报错：UnsupportedOperationException
+myList.clear();//运行时报错：UnsupportedOperationExceptionCopy to clipboardErrorCopied
+```
+
+`Arrays.asList()` 方法返回的并不是 `java.util.ArrayList` ，而是 `java.util.Arrays` 的一个内部类,这个内部类并没有实现集合的修改方法或者说并没有重写这些方法。
+
+```java
+List myList = Arrays.asList(1, 2, 3);
+System.out.println(myList.getClass());//class java.util.Arrays$ArrayListCopy to clipboardErrorCopied
+```
+
+下图是`java.util.Arrays$ArrayList`的简易源码，我们可以看到这个类重写的方法有哪些。
+
+```java
+  private static class ArrayList<E> extends AbstractList<E>
+        implements RandomAccess, java.io.Serializable
+    {
+        ...
+
+        @Override
+        public E get(int index) {
+          ...
+        }
+
+        @Override
+        public E set(int index, E element) {
+          ...
+        }
+
+        @Override
+        public int indexOf(Object o) {
+          ...
+        }
+
+        @Override
+        public boolean contains(Object o) {
+           ...
+        }
+
+        @Override
+        public void forEach(Consumer<? super E> action) {
+          ...
+        }
+
+        @Override
+        public void replaceAll(UnaryOperator<E> operator) {
+          ...
+        }
+
+        @Override
+        public void sort(Comparator<? super E> c) {
+          ...
+        }
+    }Copy to clipboardErrorCopied
+```
+
+我们再看一下`java.util.AbstractList`的`remove()`方法，这样我们就明白为啥会抛出`UnsupportedOperationException`。
+
+```java
+public E remove(int index) {
+    throw new UnsupportedOperationException();
+}Copy to clipboardErrorCopied
+```
+
+##### 2.1.4. 如何正确的将数组转换为ArrayList?>
+
+**1. 自己动手实现（教育目的）**
+
+```java
+//JDK1.5+
+static <T> List<T> arrayToList(final T[] array) {
+  final List<T> l = new ArrayList<T>(array.length);
+
+  for (final T s : array) {
+    l.add(s);
+  }
+  return l;
+}Copy to clipboardErrorCopied
+Integer [] myArray = { 1, 2, 3 };
+System.out.println(arrayToList(myArray).getClass());//class java.util.ArrayListCopy to clipboardErrorCopied
+```
+
+**2. 最简便的方法(推荐)**
+
+```java
+List list = new ArrayList<>(Arrays.asList("a", "b", "c"))Copy to clipboardErrorCopied
+```
+
+**3. 使用 Java8 的Stream(推荐)**
+
+```java
+Integer [] myArray = { 1, 2, 3 };
+List myList = Arrays.stream(myArray).collect(Collectors.toList());
+//基本类型也可以实现转换（依赖boxed的装箱操作）
+int [] myArray2 = { 1, 2, 3 };
+List myList = Arrays.stream(myArray2).boxed().collect(Collectors.toList());Copy to clipboardErrorCopied
+```
+
+**4. 使用 Guava(推荐)**
+
+对于不可变集合，你可以使用[`ImmutableList`](https://github.com/google/guava/blob/master/guava/src/com/google/common/collect/ImmutableList.java)类及其[`of()`](https://github.com/google/guava/blob/master/guava/src/com/google/common/collect/ImmutableList.java#L101)与[`copyOf()`](https://github.com/google/guava/blob/master/guava/src/com/google/common/collect/ImmutableList.java#L225)工厂方法：（参数不能为空）
+
+```java
+List<String> il = ImmutableList.of("string", "elements");  // from varargs
+List<String> il = ImmutableList.copyOf(aStringArray);      // from arrayCopy to clipboardErrorCopied
+```
+
+对于可变集合，你可以使用[`Lists`](https://github.com/google/guava/blob/master/guava/src/com/google/common/collect/Lists.java)类及其[`newArrayList()`](https://github.com/google/guava/blob/master/guava/src/com/google/common/collect/Lists.java#L87)工厂方法：
+
+```java
+List<String> l1 = Lists.newArrayList(anotherListOrCollection);    // from collection
+List<String> l2 = Lists.newArrayList(aStringArray);               // from array
+List<String> l3 = Lists.newArrayList("or", "string", "elements"); // from varargsCopy to clipboardErrorCopied
+```
+
+**5. 使用 Apache Commons Collections**
+
+```java
+List<String> list = new ArrayList<String>();
+CollectionUtils.addAll(list, str);Copy to clipboardErrorCopied
+```
+
+**6. 使用 Java9 的 List.of()方法**
+
+```java
+Integer[] array = {1, 2, 3};
+List<Integer> list = List.of(array);
+System.out.println(list); /* [1, 2, 3] */
+/* 不支持基本数据类型 */Copy to clipboardErrorCopied
+```
+
+#### 2.2 Collection.toArray()方法使用的坑&如何反转数组
+
+该方法是一个泛型方法：`<T> T[] toArray(T[] a);` 如果`toArray`方法中没有传递任何参数的话返回的是`Object`类型数组。
+
+```java
+String [] s= new String[]{
+    "dog", "lazy", "a", "over", "jumps", "fox", "brown", "quick", "A"
+};
+List<String> list = Arrays.asList(s);
+Collections.reverse(list);
+s=list.toArray(new String[0]);//没有指定类型的话会报错Copy to clipboardErrorCopied
+```
+
+由于JVM优化，`new String[0]`作为`Collection.toArray()`方法的参数现在使用更好，`new String[0]`就是起一个模板的作用，指定了返回数组的类型，0是为了节省空间，因为它只是为了说明返回的类型。详见：<https://shipilev.net/blog/2016/arrays-wisdom-ancients/>
+
+#### 2.3. 不要在 foreach 循环里进行元素的 remove/add 操作
+
+如果要进行`remove`操作，可以调用迭代器的 `remove `方法而不是集合类的 remove 方法。因为如果列表在任何时间从结构上修改创建迭代器之后，以任何方式除非通过迭代器自身`remove/add`方法，迭代器都将抛出一个`ConcurrentModificationException`,这就是单线程状态下产生的 **fail-fast 机制**。
+
+> **fail-fast 机制** ：多个线程对 fail-fast 集合进行修改的时，可能会抛出ConcurrentModificationException，单线程下也会出现这种情况，上面已经提到过。
+
+Java8开始，可以使用`Collection#removeIf()`方法删除满足特定条件的元素,如
+
+```java
+List<Integer> list = new ArrayList<>();
+for (int i = 1; i <= 10; ++i) {
+    list.add(i);
+}
+list.removeIf(filter -> filter % 2 == 0); /* 删除list中的所有偶数 */
+System.out.println(list); /* [1, 3, 5, 7, 9] */Copy to clipboardErrorCopied
+```
+
+`java.util`包下面的所有的集合类都是fail-fast的，而`java.util.concurrent`包下面的所有的类都是fail-safe的。
+
+![](.\imgs\iterator.png)
 
