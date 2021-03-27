@@ -1969,3 +1969,23 @@ System.out.println(list); /* [1, 3, 5, 7, 9] */Copy to clipboardErrorCopied
 
 ![](.\imgs\iterator.png)
 
+# 三 note
+
+## 1 static
+
+#### 1.1静态代码块
+
+当第一次用到本类时，静态代码块执行唯一的一次。
+
+静态内容总是优先于非静态，所以静态代码块比构造方法先执行。
+
+## 2  继承
+
+#### 2.1 区分父类成员变量，子类成员变量，子类局部变量
+
+子类局部：name
+
+子类成员变量 ：this.name
+
+父类成员变量：super.name
+
