@@ -2169,51 +2169,778 @@ java9 新增:
 
 ## 7 内部类
 
-1. 成员内部类
+### 7.1 成员内部类
 
-   + 格式 ： 修饰符 class 类名{
++ 格式 ： 修饰符 class 类名{
 
-     ​	修饰符 class 类名{
+  ​	修饰符 class 类名{
 
-     ​	} 
+  ​	} 
 
-     } 
+  } 
 
-   + 注意，内用外，随意访问（private的成员变量也可访问）。外用内，需要内部类对象。
++ 注意，内用外，随意访问（private的成员变量也可访问）。外用内，需要内部类对象。
 
-   + 使用方式
++ 使用方式
 
-     1. 间接：在外部类方法中使用内部类。然后main中只调用外部类的方法。
-     2. 直接：外部类名称.内部类名称 = new 外部类名称().内部类名称();
+  1. 间接：在外部类方法中使用内部类。然后main中只调用外部类的方法。
+  2. 直接：外部类名称.内部类名称 = new 外部类名称().内部类名称();
 
-   + 重名变量访问方式：
++ 重名变量访问方式：
 
-     1. 内部类局部变量:变量名
-     2. 内部类成员变量:this.变量名
-     3. 外部类成员变量:外部类类名.this.变量名
+  1. 内部类局部变量:变量名
+  2. 内部类成员变量:this.变量名
+  3. 外部类成员变量:外部类类名.this.变量名
 
-2. 局部内部类
+### 7.2 局部内部类
 
-    + 概念：定义在方法内部的类,只有当前方法能使用它，出了就不能用了。
++ 概念：定义在方法内部的类,只有当前方法能使用它，出了就不能用了。
 
-    + 格式：修饰符 class 外部类名称 {
++ 格式：修饰符 class 外部类名称 {
 
-      ​					修饰符 返回值类型 外部类方法名称（args...）{	
+  ​					修饰符 返回值类型 外部类方法名称（args...）{	
 
-      ​					 	class 局部内部类名称 {
+  ​					 	class 局部内部类名称 {
 
-      ​						     	xxxx;
+  ​						     	xxxx;
 
-      ​						 }
+  ​						 }
 
-      ​					}
+  ​					}
 
-      ​			}
+  ​			}
 
-   ​	
++ 如果希望访问所在方法的局部变量，那么这个局部变量必须是【有效final】的。
+
+  备注：从java8开始，只要局部变量事实不变，那么final关键字可以省略。
+
+  原因：
+
+   	1. new出来的对象在堆内存中。
+   	2. 局部变量是跟着方法走的，在栈内存中。
+   	3. 方法运行结束之后，立刻出栈，局部变量会立刻消失。
+   	4. 但是new出来的对象在堆内存中，直到垃圾回收才会消失。对象存在时间比局部变量长，所以需要保证变量不变，对象才可一直使用该变量的拷贝。不然局部变量消失后对象就找不到该变量了。
+
+### 7.3 匿名内部类
+
+```java
+/*
+如果接口的实现类（或者是父类的子类）只需要使用唯一的一次，
+那么这种情况下就可以省略掉该类的定义，而改为使用【匿名内部类】。
+
+匿名内部类的定义格式：
+接口名称 对象名 = new 接口名称() {
+    // 覆盖重写所有抽象方法
+};
+
+对格式“new 接口名称() {...}”进行解析：
+1. new代表创建对象的动作
+2. 接口名称就是匿名内部类需要实现哪个接口
+3. {...}这才是匿名内部类的内容
+
+另外还要注意几点问题：
+1. 匿名内部类，只能创建一次对象。
+如果希望多次创建对象，而且类的内容一样的话，那么就需要使用单独定义的实现类了。
+2. 匿名对象，在【调用方法】的时候，只能调用唯一一次。
+如果希望同一个对象，调用多次方法，那么必须给对象起个名字。
+3. 匿名内部类是省略了【实现类/子类名称】，但是匿名对象是省略了【对象名称】
+强调：匿名内部类和匿名对象不是一回事！！！
+ */
+```
+
+
+
+
+
+​	
 
 ## 8 类的修饰符总结
 
 1. 外部类：public / (default)
 2. 成员内部类：public / protected / (default) / private
 3. 局部内部类：什么都不能写
+
+## 9 Object 类
+
+1. toString:打印对象调用的是Object类的toString()方法。默认打印对象的地址值。要打印对象的内容，需要重写toString()方法。
+
+2. + equals():Object类默认的equals调用==判断是否相等
+
+   + equals()的参数是Object对象，重写equals方法无法使用子类的属性，所以需要向下强转。还要先用 instanceOf判断一下
+
+   + Objects.equals()方法：可以防止空指针异常
+
+     ```java
+     public static boolean equals(Object a, Object b) {
+         return (a == b) || (a != null && a.equals(b));
+     }
+     ```
+
+## 10 Date 类
+
+` java.util.Date`类 表示特定的瞬间，精确到毫秒。
+
+继续查阅Date类的描述，发现Date拥有多个构造函数，只是部分已经过时，但是其中有未过时的构造函数可以把毫秒值转成日期对象。
+
+- `public Date()`：分配Date对象并初始化此对象，以表示分配它的时间（精确到毫秒）。
+- `public Date(long date)`：分配Date对象并初始化此对象，以表示自从标准基准时间（称为“历元（epoch）”，即1970年1月1日00:00:00 GMT）以来的指定毫秒数。
+
+> tips: 由于我们处于东八区，所以我们的基准时间为1970年1月1日8时0分0秒。
+
+简单来说：使用无参构造，可以自动设置当前系统时间的毫秒时刻；指定long类型的构造参数，可以自定义毫秒时刻。tips:在使用println方法时，会自动调用Date类中的toString方法。Date类对Object类中的toString方法进行了覆盖重写，所以结果为指定格式的字符串。
+
+### 常用方法
+
+Date类中的多数方法已经过时，常用的方法有：
+
+- `public long getTime()` 把日期对象转换成对应的时间毫秒值。
+
+## 11 DateFormat类
+
+`java.text.DateFormat` 是日期/时间格式化子类的抽象类，我们通过这个类可以帮我们完成日期和文本之间的转换,也就是可以在Date对象与String对象之间进行来回转换。
+
+- **格式化**：按照指定的格式，从Date对象转换为String对象。
+- **解析**：按照指定的格式，从String对象转换为Date对象。
+
+### 构造方法
+
+由于DateFormat为抽象类，不能直接使用，所以需要常用的子类`java.text.SimpleDateFormat`。这个类需要一个模式（格式）来指定格式化或解析的标准。构造方法为：
+
+- `public SimpleDateFormat(String pattern)`：用给定的模式和默认语言环境的日期格式符号构造SimpleDateFormat。
+
+参数pattern是一个字符串，代表日期时间的自定义格式。
+
+### 格式规则
+
+常用的格式规则为：
+
+| 标识字母（区分大小写） | 含义 |
+| ---------------------- | ---- |
+| y                      | 年   |
+| M                      | 月   |
+| d                      | 日   |
+| H                      | 时   |
+| m                      | 分   |
+| s                      | 秒   |
+
+> 备注：更详细的格式规则，可以参考SimpleDateFormat类的API文档0。
+
+创建SimpleDateFormat对象的代码如：
+
+```java
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+public class Demo02SimpleDateFormat {
+    public static void main(String[] args) {
+        // 对应的日期格式如：2018-01-16 15:06:38
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    }    
+}
+```
+
+### 常用方法
+
+DateFormat类的常用方法有：
+
+- `public String format(Date date)`：将Date对象格式化为字符串。
+- `public Date parse(String source)`：将字符串解析为Date对象。
+
+#### format方法
+
+使用format方法的代码为：
+
+```java
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+/*
+ 把Date对象转换成String
+*/
+public class Demo03DateFormatMethod {
+    public static void main(String[] args) {
+        Date date = new Date();
+        // 创建日期格式化对象,在获取格式化对象时可以指定风格
+        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
+        String str = df.format(date);
+        System.out.println(str); // 2008年1月23日
+    }
+}
+```
+
+#### parse方法
+
+使用parse方法的代码为：
+
+```java
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+/*
+ 把String转换成Date对象
+*/
+public class Demo04DateFormatMethod {
+    public static void main(String[] args) throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
+        String str = "2018年12月11日";
+        Date date = df.parse(str);
+        System.out.println(date); // Tue Dec 11 00:00:00 CST 2018
+    }
+}
+```
+
+## 12 Calendar类
+
+### 概念
+
+`java.util.Calendar`是日历类，在Date后出现，替换掉了许多Date的方法。该类将所有可能用到的时间信息封装为静态成员变量，方便获取。日历类就是方便获取各个时间属性的。
+
+### 获取方式
+
+Calendar为抽象类，由于语言敏感性，Calendar类在创建对象时并非直接创建，而是通过静态方法创建，返回子类对象，如下：
+
+Calendar静态方法
+
+- `public static Calendar getInstance()`：使用默认时区和语言环境获得一个日历
+
+例如：
+
+```java
+import java.util.Calendar;
+
+public class Demo06CalendarInit {
+    public static void main(String[] args) {
+        Calendar cal = Calendar.getInstance();
+    }    
+}
+```
+
+### 常用方法
+
+根据Calendar类的API文档，常用方法有：
+
+- `public int get(int field)`：返回给定日历字段的值。
+- `public void set(int field, int value)`：将给定的日历字段设置为给定值。
+- `public abstract void add(int field, int amount)`：根据日历的规则，为给定的日历字段添加或减去指定的时间量。
+- `public Date getTime()`：返回一个表示此Calendar时间值（从历元到现在的毫秒偏移量）的Date对象。
+
+Calendar类中提供很多成员常量，代表给定的日历字段：
+
+| 字段值       | 含义                                  |
+| ------------ | ------------------------------------- |
+| YEAR         | 年                                    |
+| MONTH        | 月（从0开始，可以+1使用）             |
+| DAY_OF_MONTH | 月中的天（几号）                      |
+| HOUR         | 时（12小时制）                        |
+| HOUR_OF_DAY  | 时（24小时制）                        |
+| MINUTE       | 分                                    |
+| SECOND       | 秒                                    |
+| DAY_OF_WEEK  | 周中的天（周几，周日为1，可以-1使用） |
+
+#### get/set方法
+
+get方法用来获取指定字段的值，set方法用来设置指定字段的值，代码使用演示：
+
+```java
+import java.util.Calendar;
+
+public class CalendarUtil {
+    public static void main(String[] args) {
+        // 创建Calendar对象
+        Calendar cal = Calendar.getInstance();
+        // 设置年 
+        int year = cal.get(Calendar.YEAR);
+        // 设置月
+        int month = cal.get(Calendar.MONTH) + 1;
+        // 设置日
+        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+        System.out.print(year + "年" + month + "月" + dayOfMonth + "日");
+    }    
+}
+```
+
+```java
+import java.util.Calendar;
+
+public class Demo07CalendarMethod {
+    public static void main(String[] args) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2020);
+        System.out.print(year + "年" + month + "月" + dayOfMonth + "日"); // 2020年1月17日
+    }
+}
+```
+
+#### add方法
+
+add方法可以对指定日历字段的值进行加减操作，如果第二个参数为正数则加上偏移量，如果为负数则减去偏移量。代码如：
+
+```java
+import java.util.Calendar;
+
+public class Demo08CalendarMethod {
+    public static void main(String[] args) {
+        Calendar cal = Calendar.getInstance();
+        System.out.print(year + "年" + month + "月" + dayOfMonth + "日"); // 2018年1月17日
+        // 使用add方法
+        cal.add(Calendar.DAY_OF_MONTH, 2); // 加2天
+        cal.add(Calendar.YEAR, -3); // 减3年
+        System.out.print(year + "年" + month + "月" + dayOfMonth + "日"); // 2015年1月18日; 
+    }
+}
+```
+
+#### getTime方法
+
+Calendar中的getTime方法并不是获取毫秒时刻，而是拿到对应的Date对象。
+
+```java
+import java.util.Calendar;
+import java.util.Date;
+
+public class Demo09CalendarMethod {
+    public static void main(String[] args) {
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        System.out.println(date); // Tue Jan 16 16:03:09 CST 2018
+    }
+}
+```
+
+> 小贴士：
+>
+> ​     西方星期的开始为周日，中国为周一。
+>
+> ​     在Calendar类中，月份的表示是以0-11代表1-12月。
+>
+> ​     日期是有大小关系的，时间靠后，时间越大。
+
+## System类
+
+`java.lang.System`类中提供了大量的静态方法，可以获取与系统相关的信息或系统级操作，在System类的API文档中，常用的方法有：
+
+- `public static long currentTimeMillis()`：返回以毫秒为单位的当前时间。
+- `public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)`：将数组中指定的数据拷贝到另一个数组中。
+
+
+
+## 13 String, StringBuilder,StringBuffer
+
+
+
+由于String类的对象内容不可改变，所以每当进行字符串拼接时，总是会在内存中创建一个新的对象。例如：
+
+```java
+public class StringDemo {
+    public static void main(String[] args) {
+        String s = "Hello";
+        s += "World";
+        System.out.println(s);
+    }
+}
+```
+
+在API中对String类有这样的描述：字符串是常量，它们的值在创建后不能被更改。(因为底层的数组是final的)
+
+根据这句话分析我们的代码，其实总共产生了三个字符串，即`"Hello"`、`"World"`和`"HelloWorld"`。引用变量s首先指向`Hello`对象，最终指向拼接出来的新字符串对象，即`HelloWord` 。
+
+由此可知，如果对字符串进行拼接操作，每次拼接，都会构建一个新的String对象，既耗时，又浪费空间。为了解决这一问题，可以使用`java.lang.StringBuilder`类。
+
+### 13.1 StringBuilder概述
+
+查阅`java.lang.StringBuilder`的API，StringBuilder又称为可变字符序列，它是一个类似于 String 的字符串缓冲区，通过某些方法调用可以改变该序列的长度和内容。
+
+原来StringBuilder是个字符串的缓冲区，即它是一个容器，容器中可以装很多字符串。并且能够对其中的字符串进行各种操作。
+
+它的内部拥有一个数组(不是final的)用来存放字符串内容，进行字符串拼接时，直接在数组中加入新内容。StringBuilder会自动维护数组的扩容。原理如下图所示：(默认16字符空间，超过自动扩充)
+
+### 13.2 构造方法
+
+根据StringBuilder的API文档，常用构造方法有2个：
+
+- `public StringBuilder()`：构造一个空的StringBuilder容器。
+- `public StringBuilder(String str)`：构造一个StringBuilder容器，并将字符串添加进去。
+
+### 13.3 常用方法
+
+StringBuilder常用的方法有2个：
+
+- `public StringBuilder append(...)`：添加任意类型数据的字符串形式，并返回当前对象自身。
+- `public String toString()`：将当前StringBuilder对象转换为String对象。
+
+1. append方法
+
+append方法具有多种重载形式，可以接收任意类型的参数。任何数据作为参数都会将对应的字符串内容添加到StringBuilder中。例如：
+
+```java
+public class Demo02StringBuilder {
+	public static void main(String[] args) {
+		//创建对象
+		StringBuilder builder = new StringBuilder();
+		//public StringBuilder append(任意类型)
+		StringBuilder builder2 = builder.append("hello");
+		//对比一下
+		System.out.println("builder:"+builder);
+		System.out.println("builder2:"+builder2);
+		System.out.println(builder == builder2); //true
+	    // 可以添加 任何类型
+		builder.append("hello");
+		builder.append("world");
+		builder.append(true);
+		builder.append(100);
+		// 在我们开发中，会遇到调用一个方法后，返回一个对象的情况。然后使用返回的对象继续调用方法。
+        // 这种时候，我们就可以把代码现在一起，如append方法一样，代码如下
+		//链式编程
+		builder.append("hello").append("world").append(true).append(100);
+		System.out.println("builder:"+builder);
+	}
+}
+```
+
+> 备注：StringBuilder已经覆盖重写了Object当中的toString方法。
+
+2. toString方法
+
+通过toString方法，StringBuilder对象将会转换为不可变的String对象。如：
+
+```java
+public class Demo16StringBuilder {
+    public static void main(String[] args) {
+        // 链式创建
+        StringBuilder sb = new StringBuilder("Hello").append("World").append("Java");
+        // 调用方法
+        String str = sb.toString();
+        System.out.println(str); // HelloWorldJava
+    }
+}
+```
+
+## 14 装箱拆箱
+
+基本类型与对应的包装类对象之间，来回转换的过程称为”装箱“与”拆箱“：
+
+- **装箱**：从基本类型转换为对应的包装类对象。
+- **拆箱**：从包装类对象转换为对应的基本类型。
+
+用Integer与 int为例：（看懂代码即可）
+
+基本数值---->包装对象
+
+```java
+Integer i = new Integer(4);//使用构造函数函数
+Integer iii = Integer.valueOf(4);//使用包装类中的valueOf方法
+```
+
+包装对象---->基本数值
+
+```java
+int num = i.intValue();
+```
+
+## 15 基本类型与字符串类型转化
+
+```java
+/*
+    基本类型与字符串类型之间的相互转换
+    基本类型->字符串(String)
+        1.基本类型的值+""  最简单的方法(工作中常用)
+        2.包装类的静态方法toString(参数),不是Object类的toString() 重载
+            static String toString(int i) 返回一个表示指定整数的 String 对象。
+        3.String类的静态方法valueOf(参数)
+            static String valueOf(int i) 返回 int 参数的字符串表示形式。
+    字符串(String)->基本类型
+        使用包装类的静态方法parseXXX("字符串");
+            Integer类: static int parseInt(String s)
+            Double类: static double parseDouble(String s)
+ */
+```
+
+
+
+集合按照其存储结构可以分为两大类，分别是单列集合`java.util.Collection`和双列集合`java.util.Map`
+
+## 16 collection
+
+![](.\imgs\collections.png)
+
+- **Collection**：单列集合类的根接口，用于存储一系列符合某种规则的元素，它有两个重要的子接口，分别是`java.util.List`和`java.util.Set`。其中，`List`的特点是元素有序、元素可重复。`Set`的特点是元素无序，而且不可重复。`List`接口的主要实现类有`java.util.ArrayList`和`java.util.LinkedList`，`Set`接口的主要实现类有`java.util.HashSet`和`java.util.TreeSet`。
+
+- **Collection 常用功能**
+
+  Collection是所有单列集合的父接口，因此在Collection中定义了单列集合(List和Set)通用的一些方法，这些方法可用于操作所有的单列集合。方法如下：
+
+  - `public boolean add(E e)`：  把给定的对象添加到当前集合中 。
+  - `public void clear()` :清空集合中所有的元素。
+  - `public boolean remove(E e)`: 把给定的对象在当前集合中删除。
+  - `public boolean contains(E e)`: 判断当前集合中是否包含给定的对象。
+  - `public boolean isEmpty()`: 判断当前集合是否为空。
+  - `public int size()`: 返回集合中元素的个数。
+  - `public Object[] toArray()`: 把集合中的元素，存储到数组中。
+
+## 17 泛型
+
+Collection虽然可以存储各种对象，但实际上通常Collection只存储同一类型对象。例如都是存储字符串对象。因此在JDK5之后，新增了**泛型**(**Generic**)语法，让你在设计API时可以指定类或方法支持泛型，这样我们使用API的时候也变得更为简洁，并得到了编译时期的语法检查。
+
+- **泛型**：可以在类或方法中预支地使用未知的类型。
+
+> tips:一般在创建对象时，将未知的类型确定具体的类型。当没有指定泛型时，默认类型为Object类型。
+
++ 使用泛型的好处
+
+泛型带来了哪些好处呢？
+
+- 将运行时期的ClassCastException，转移到了编译时期变成了编译失败。
+- 避免了类型强转的麻烦。
+
+### 泛型的定义与使用
+
+我们在集合中会大量使用到泛型，这里来完整地学习泛型知识。
+
+泛型，用来灵活地将数据类型应用到不同的类、方法、接口当中。将数据类型作为参数进行传递。
+
+#### 定义和使用含有泛型的类
+
+定义格式：
+
+```
+修饰符 class 类名<代表泛型的变量> {  }
+```
+
+例如，API中的ArrayList集合：
+
+```java
+class ArrayList<E>{ 
+    public boolean add(E e){ }
+
+    public E get(int index){ }
+   	....
+}
+```
+
+使用泛型： 即什么时候确定泛型。
+
+**在创建对象的时候确定泛型**
+
+ 例如，`ArrayList<String> list = new ArrayList<String>();`
+
+此时，变量E的值就是String类型,那么我们的类型就可以理解为：
+
+```java 
+class ArrayList<String>{ 
+     public boolean add(String e){ }
+
+     public String get(int index){  }
+     ...
+}
+```
+
+再例如，`ArrayList<Integer> list = new ArrayList<Integer>();`
+
+此时，变量E的值就是Integer类型,那么我们的类型就可以理解为：
+
+```java
+class ArrayList<Integer> { 
+     public boolean add(Integer e) { }
+
+     public Integer get(int index) {  }
+     ...
+}
+```
+
+举例自定义泛型类
+
+```java
+public class MyGenericClass<MVP> {
+	//没有MVP类型，在这里代表 未知的一种数据类型 未来传递什么就是什么类型
+	private MVP mvp;
+     
+    public void setMVP(MVP mvp) {
+        this.mvp = mvp;
+    }
+     
+    public MVP getMVP() {
+        return mvp;
+    }
+}
+```
+
+使用:
+
+```java
+public class GenericClassDemo {
+  	public static void main(String[] args) {		 
+         // 创建一个泛型为String的类
+         MyGenericClass<String> my = new MyGenericClass<String>();    	
+         // 调用setMVP
+         my.setMVP("curry");
+         // 调用getMVP
+         String mvp = my.getMVP();
+         System.out.println(mvp);
+         //创建一个泛型为Integer的类
+         MyGenericClass<Integer> my2 = new MyGenericClass<Integer>(); 
+         my2.setMVP(123);   	  
+         Integer mvp2 = my2.getMVP();
+    }
+}
+```
+
+#### 含有泛型的方法
+
+定义格式：
+
+```
+修饰符 <代表泛型的变量> 返回值类型 方法名(参数){  }
+```
+
+例如，
+
+```java
+public class MyGenericMethod {	  
+    public <MVP> void show(MVP mvp) {
+    	System.out.println(mvp.getClass());
+    }
+    
+    public <MVP> MVP show2(MVP mvp) {	
+    	return mvp;
+    }
+}
+```
+
+使用格式：**调用方法时，确定泛型的类型**
+
+```java
+public class GenericMethodDemo {
+    public static void main(String[] args) {
+        // 创建对象
+        MyGenericMethod mm = new MyGenericMethod();
+        // 演示看方法提示
+        mm.show("aaa");
+        mm.show(123);
+        mm.show(12.45);
+    }
+}
+```
+
+#### 有泛型的接口
+
+定义格式：
+
+```
+修饰符 interface接口名<代表泛型的变量> {  }
+```
+
+例如，
+
+```java
+public interface MyGenericInterface<E>{
+	public abstract void add(E e);
+	
+	public abstract E getE();  
+}
+```
+
+使用格式：
+
+**1、定义类时确定泛型的类型**
+
+例如
+
+```java
+public class MyImp1 implements MyGenericInterface<String> {
+	@Override
+    public void add(String e) {
+        // 省略...
+    }
+
+	@Override
+	public String getE() {
+		return null;
+	}
+}
+```
+
+此时，泛型E的值就是String类型。
+
+ **2、始终不确定泛型的类型，直到创建对象时，确定泛型的类型**
+
+ 例如
+
+```java
+public class MyImp2<E> implements MyGenericInterface<E> {
+	@Override
+	public void add(E e) {
+       	 // 省略...
+	}
+
+	@Override
+	public E getE() {
+		return null;
+	}
+}
+```
+
+确定泛型：
+
+```java
+/*
+ * 使用
+ */
+public class GenericInterface {
+    public static void main(String[] args) {
+        MyImp2<String>  my = new MyImp2<String>();  
+        my.add("aa");
+    }
+}
+```
+
+
+
+## 18 LinkedList
+
+### 特有方法
+
+```csharp
+//以下四个是特有方法
+public void addFirst(E e)及addLast(E e)
+public E getFirst()及getLast()
+public E removeFirst()及public E removeLast()
+public E get(int index);
+//addFirst 等效于此类中的push
+//removeFirst 等效于此类中的pop
+```
+
+## 19 Queue中方法区别
+
+1、offer()和add()的区别
+add()和offer()都是向队列中添加一个元素。但是如果想在一个满的队列中加入一个新元素，调用 add() 方法就会抛出一个 unchecked 异常，而调用 offer() 方法会返回 false。可以据此在程序中进行有效的判断！
+
+2、peek()和element()的区别
+peek()和element()都将在不移除的情况下返回队头，但是peek()方法在队列为空时返回null，调用element()方法会抛出NoSuchElementException异常。
+
+3、poll()和remove()的区别
+poll()和remove()都将移除并且返回队头，但是在poll()在队列为空时返回null，而remove()会抛出NoSuchElementException异常。
+
+## 20 Hash
+
++ HashSet底层是哈希表
++ HashSet不能使用for遍历，可以使用for each 和iterator遍历。
++ 哈希值是一个十进制整数，由系统随即给出，表示对象的逻辑地址
+
+#### 20.1 哈希表
+
++ 在**JDK1.8**之前，哈希表底层采用数组+链表实现，即使用链表处理冲突，同一hash值的链表都存储在一个链表里。但是当位于一个桶中的元素较多，即hash值相等的元素较多时，通过key值依次查找的效率较低。而JDK1.8中，哈希表存储采用数组+链表+红黑树实现，当链表长度超过阈值（8）时，将链表转换为红黑树，这样大大减少了查找时间。
+
++ set的add方法添加元素时，会调用元素的hashcode和equals方法判断是否重复，如果集合中没有重复元素，才添加。对于我们来讲保证HashSet集合元素的唯一，其实就是根据对象的hashCode和equals方法来决定的。如果我们往集合中存放自定义的对象，那么保证其唯一，就必须复写hashCode和equals方法建立属于当前对象的比较方式。
+
++ 为什么用红黑树
+
+HashMap在里面就是链表加上红黑树的一种结构，这样利用了链表对内存的使用率以及红黑树的高效检索，是一种很happy的数据结构。
+
+AVL树是一种高度平衡的二叉树，所以查找的非常高，但是，有利就有弊，AVL树为了维持这种高度的平衡，就要付出更多代价。每次插入、删除都要做调整，就比较复杂、耗时。所以，对于有频繁的插入、删除操作的数据集合，使用AVL树的代价就有点高了。
+
+红黑树只是做到了近似平衡，并不严格的平衡，所以在维护的成本上，要比AVL树要低。
+
+所以，红黑树的插入、删除、查找各种操作性能都比较稳定。对于工程应用来说，要面对各种异常情况，为了支撑这种工业级的应用，我们更倾向于这种性能稳定的平衡二叉查找树。
+
+
