@@ -36,3 +36,7 @@
 1. 内容是空的，起个标识符作用，表示实现该接口的可以被随机访问
 2. 举例，ArrayList实现了，LinkedList没有实现。
 3. 举例，binarySearch判断传入的 list 是否 `RamdomAccess` 的实例从而调用indexedBinarySearch()或iteratorBinarySearch()。
+
+### [1.2.3. 说一说 ArrayList 的扩容机制吧](https://snailclimb.gitee.io/javaguide/#/docs/java/collection/Java集合框架常见面试题?id=_123-说一说-arraylist-的扩容机制吧)
+
+难，以后看
