@@ -1967,6 +1967,8 @@ System.out.println(list); /* [1, 3, 5, 7, 9] */Copy to clipboardErrorCopied
 
 ![](.\imgs\iterator.png)
 
+
+
 # 三 note
 
 ## 1 static
