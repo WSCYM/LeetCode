@@ -391,7 +391,7 @@ double quickMul(double x, long N) {
 
 ![1604660402967](.\imgs\hdck.png)
 
-模板:
+模板:（左闭右开）
 
 ```swift
 int left = 0, right = 0;
