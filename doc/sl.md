@@ -1,3 +1,9 @@
+## 补充
+
+### 1 锁升级
+
+
+
 ## 一 java 基础
 
 ### 17. 接⼝和抽象类的区别是什么？  
@@ -280,4 +286,50 @@ hashCode() 的默认⾏为是根据对象在堆内存中的地址产生独特值
 ```
 跳了
 ```
+
+
+
+## 九 spring
+
+### 5.1.3 @RestController vs @Controller 
+
+### 5.1.4 Spring IOC & AOP 
+
+#### 谈谈⾃⼰对于 Spring IoC 和 AOP 的理解 
+
+#### Spring AOP 和 AspectJ AOP 有什么区别？ 
+
+```
+跳了
+```
+
+### 5.1.5 spring bean
+
+#### Spring 中的 bean 的作⽤域有哪些? 
+
+#### Spring 中的单例 bean 的线程安全问题了解吗？ 
+
+#### @Component 和 @Bean 的区别是什么？ 
+
+#### spring中bean的生命周期?
+
+```
+跳了
+```
+
+### 5.1.6 springMVC工作原理
+
+### 5.1.7 spring中用到哪些设计模式？
+
+### 5.1.8 Spring事务
+
+#### 管理方式？
+
+#### 声明式事务有哪两种？
+
+#### **spring事务的隔离级别？**
+
+**spring事务的传播行为？**
+
+####  @Transactional(rollbackFor = Exception.class)注解了解吗？ 
 
