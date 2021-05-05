@@ -29,12 +29,12 @@ public class BubbleSort {
 ```java
 public class SelectSort {
     void sort(int[] nums,int n){
-        int mid;
+        int min;
         for (int i = 0;i<n-1;i++){
-            mid = i;
+            min = i;
             for (int j = i+1;j<n;j++){
-                if (nums[j]<nums[mid]){
-                    mid = j;
+                if (nums[j]<nums[min]){
+                    min = j;
                 }
             }
             int tmp = nums[mid];
