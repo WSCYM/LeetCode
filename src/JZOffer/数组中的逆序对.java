@@ -5,7 +5,7 @@ public class 数组中的逆序对 {
     public int reversePairs(int[] nums) {
         this.nums = nums;
         tmp = new int[nums.length];
-        return mergeSort(0,nums.length-1);
+        return mergeSort (0,nums.length-1);
     }
 
     private int mergeSort(int l,int r){
