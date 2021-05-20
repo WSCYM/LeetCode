@@ -60,7 +60,7 @@ class Solution {
             while (hashMap.get(chars[j])>=2){
                 hashMap.put(chars[i],hashMap.get(chars[i])-1);
                 i++;
-        }
+            }
             if (j-i+1>ret){
                 ret=j-i+1;
             }

@@ -373,22 +373,34 @@ https://zhuanlan.zhihu.com/p/95902286
 
 ![1604660402967](.\imgs\hdck.png)
 
-模板:（左闭右开）
+模板:（最短串）
 
 ```swift
-int left = 0, right = 0;
-while (right < s.size()) {
-    // 增大窗口
-    window.add(s[right]);
-    right++;
-
-    while (window needs shrink) {
-        // 缩小窗口
-        window.remove(s[left]);
-        left++;
-    }
+for (int j = 0; j < s.size(); j++) {
+	窗口右端扩展，加进s[j], 更新条件;
+	while(满足条件) {
+		和当前最优比较并保存;
+		窗口左端移除s[i]，更新条件;
+		i++;
+	}
 }
 ```
+
+模板:（最长串）
+
+```java
+for (int j = 0; j < s.size(); j++) {
+	窗口右端扩展，加进s[j], 更新条件;
+	while(不满足条件) {
+		窗口左端移除s[i]，更新条件;
+		i++;
+	}
+	此时重新满足条件，和最优比较并记录;
+}
+
+```
+
+
 
 e:[76最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/)
 
