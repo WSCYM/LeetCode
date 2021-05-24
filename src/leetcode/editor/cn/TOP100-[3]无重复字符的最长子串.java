@@ -50,7 +50,7 @@ package leetcode.editor.cn;
 import java.util.HashMap;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+class Solution3 {
     public int lengthOfLongestSubstring(String s) {
         char[] chars = s.toCharArray();
         HashMap<Character,Integer> hashMap = new HashMap<>();
@@ -66,10 +66,6 @@ class Solution {
             }
         }
         return ret;
-    }
-
-    public static void main(String[] args) {
-        new Solution().lengthOfLongestSubstring("abcabcbb");
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

@@ -57,7 +57,7 @@ import classes.Node;
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-class Solution {
+class Solution2 {
 //    //迭代
 //    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 //        int add = 0;
