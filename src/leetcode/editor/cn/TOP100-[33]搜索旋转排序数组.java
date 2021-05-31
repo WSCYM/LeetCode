@@ -49,7 +49,7 @@ package leetcode.editor.cn;
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+class Solution33 {
     public int search(int[] nums, int target) {
         int l = 0;
         int r = nums.length-1;
