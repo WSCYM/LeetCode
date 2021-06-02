@@ -44,7 +44,7 @@ package leetcode.editor.cn;
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+class Solution34 {
     public int[] searchRange(int[] nums, int target) {
         int[] ret = new int[]{-1,-1};
         int left = 0;

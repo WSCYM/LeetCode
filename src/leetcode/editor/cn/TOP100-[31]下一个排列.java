@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+class Solution31 {
     public void nextPermutation(int[] nums) {
         int l = nums.length-2;
         while (l>=0 && nums[l]>=nums[l+1]){
