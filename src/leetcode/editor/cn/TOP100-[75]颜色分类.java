@@ -59,7 +59,7 @@ package leetcode.editor.cn;
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+class Solution75 {
     public void sortColors(int[] nums) {
         int num0=0,num1=0;
         for (int n : nums){
