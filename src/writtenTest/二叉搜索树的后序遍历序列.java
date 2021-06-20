@@ -1,3 +1,5 @@
+package writtenTest;
+
 public class 二叉搜索树的后序遍历序列 {
     public boolean verifyPostorder(int[] postorder) {
         return recur(postorder,0,postorder.length-1);

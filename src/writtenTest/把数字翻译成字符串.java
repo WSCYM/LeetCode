@@ -1,3 +1,5 @@
+package writtenTest;
+
 public class 把数字翻译成字符串 {
     public int translateNum(int num) {
         String string = String.valueOf(num);

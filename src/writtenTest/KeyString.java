@@ -1,3 +1,5 @@
+package writtenTest;
+
 import java.util.*;
 
 public class KeyString {

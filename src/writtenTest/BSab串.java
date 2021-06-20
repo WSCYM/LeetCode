@@ -1,3 +1,5 @@
+package writtenTest;
+
 import java.util.Scanner;
 
 public class BSab串 {
