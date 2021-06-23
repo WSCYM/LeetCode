@@ -1016,6 +1016,10 @@ class UnionFind{
 
 
 
+## 16 LinkedBlockingQueue 和 ConcurrentLinkedQueue的区别
+
+https://juejin.cn/post/6862577719658430472
+
 # 二 java知识点
 
 ## 1 java基础
