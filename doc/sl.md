@@ -333,3 +333,12 @@ hashCode() 的默认⾏为是根据对象在堆内存中的地址产生独特值
 
 ####  @Transactional(rollbackFor = Exception.class)注解了解吗？ 
 
+#  面经总结
+
+## 1. 有哪些线程安全的list?
+
+Vector、synchronizedList、CopyOnWriteArrayList
+
+## 2.自己设计线程池，从哪方面考虑？
+
+任务的性质、任务的执行时间
