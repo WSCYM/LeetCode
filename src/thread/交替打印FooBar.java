@@ -7,6 +7,42 @@ import java.util.concurrent.Semaphore;
 public class 交替打印FooBar {
 }
 
+//自旋+yield
+class FooBar {
+    volatile boolean printFooFlag = true;
+
+    private int n;
+
+    public FooBar(int n) {
+        this.n = n;
+    }
+
+    public void foo(Runnable printFoo) throws InterruptedException {
+        for (int i = 0;i<n;){
+            if (printFooFlag){
+                printFoo.run();
+                printFooFlag=false;
+                i++;
+            } else {
+                Thread.yield();
+            }
+        }
+
+
+    }
+
+    public void bar(Runnable printBar) throws InterruptedException {
+        for (int i = 0;i<n;){
+            if (!printFooFlag){
+                printBar.run();
+                printFooFlag=true;
+                i++;
+            } else {
+                Thread.yield();
+            }
+        }
+    }
+}
 
 ////blocking queue
 //class FooBar {
