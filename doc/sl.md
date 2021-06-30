@@ -342,3 +342,17 @@ Vector、synchronizedList、CopyOnWriteArrayList
 ## 2.自己设计线程池，从哪方面考虑？
 
 任务的性质、任务的执行时间
+
+## 3.hashmap在并发环境下可能遇到的问题？
+
+https://coolshell.cn/articles/9606.html
+
+## 4. 怎么实现IOC
+
+https://zhuanlan.zhihu.com/p/58622371
+
+## 5. spring 依赖注入的几种方式
+
+https://segmentfault.com/a/1190000023309818
+
+## 6. 请问Spring支持的事务管理类型有哪些？以及你在项目中会使用哪种方式？
