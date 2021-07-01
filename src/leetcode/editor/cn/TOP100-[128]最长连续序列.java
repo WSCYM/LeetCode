@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
+class Solution128 {
 //    public int longestConsecutive(int[] nums) {
 //        HashSet<Integer> hashSet = new HashSet<>();
 //        for (int num : nums){
