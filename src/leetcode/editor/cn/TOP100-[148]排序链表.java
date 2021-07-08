@@ -55,7 +55,7 @@ import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-class Solution {
+class Solution148 {
 
     public ListNode sortList(ListNode head) {
         if (head==null || head.next==null){
@@ -88,16 +88,16 @@ class Solution {
         return pre.next;
     }
 
-    public static void main(String[] args) {
-        ListNode listNode1 =new ListNode(4);
-        ListNode listNode2 =new ListNode(2);
-        ListNode listNode3 =new ListNode(1);
-        ListNode listNode4 =new ListNode(3);
-        listNode1.next = listNode2;
-        listNode2.next = listNode3;
-        listNode3.next = listNode4;
-        new Solution().sortList(listNode1);
-    }
+//    public static void main(String[] args) {
+//        ListNode listNode1 =new ListNode(4);
+//        ListNode listNode2 =new ListNode(2);
+//        ListNode listNode3 =new ListNode(1);
+//        ListNode listNode4 =new ListNode(3);
+//        listNode1.next = listNode2;
+//        listNode2.next = listNode3;
+//        listNode3.next = listNode4;
+//        new Solution().sortList(listNode1);
+//    }
 
 //    public ListNode sortList(ListNode head) {
 //        ListNode tmpHead = new ListNode(-1);
