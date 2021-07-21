@@ -96,7 +96,7 @@ public class MergeSort {
 public class QuickSort {
     //左闭右开
     public void sort(int[] nums,int l,int r){
-        if (l+1>=r){
+        if (l>=r){
             return;
         }
         int first = l;int last = r-1;int key = nums[first];
@@ -171,7 +171,7 @@ public class HeapSort {
             maxHeapify(nums,i,heapSize);
         }
     }
-	以第i个位置为根的子树调整为最大堆
+	//以第i个位置为根的子树调整为最大堆
     public void maxHeapify(int[] a,int i,int heapSize){
         int l=2*i+1;
         int r = 2*i+2;
