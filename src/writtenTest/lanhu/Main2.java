@@ -1,2 +1,4 @@
-package writtenTest.lanhu;public class Main2 {
+package writtenTest.lanhu;
+
+public class Main2 {
 }

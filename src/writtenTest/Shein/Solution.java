@@ -9,12 +9,16 @@ public class Solution {
     public String changespaceto20 (String str) {
         StringBuilder sb = new StringBuilder();
         for (int i=0;i<str.length();i++){
-            if (" ".equals(str.charAt(i))){
+            if (str.charAt(i)==' '){
                 sb.append("%20");
             } else {
                 sb.append(str.charAt(i));
             }
         }
         return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Solution().changespaceto20("a  b    c"));
     }
 }
